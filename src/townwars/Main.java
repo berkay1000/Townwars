@@ -32,7 +32,7 @@ public class Main {
 
 		int zaehler = 0;
 
-		while (true) { // true soll später zu pause werden
+		while (true) { // true soll später zu pause werden asd
 
 			try {
 				Thread.sleep(17); // 17
