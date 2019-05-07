@@ -45,12 +45,12 @@ public class JPanelGroundView extends JPanel {
 		pause.setBounds(120, 10, 100, 50);
 		pause.setVisible(true);
 		pause.setActionCommand("pause");
-		
+
 		attack = new JButton("attack");
 		attack.setBounds(1080, 200, 100, 50);
 		attack.setVisible(true);
 		attack.setActionCommand("attack");
-		
+
 		attack.addActionListener(gui.ctrl);
 		exit.addActionListener(gui.ctrl);
 		pause.addActionListener(gui.ctrl);
@@ -86,15 +86,20 @@ public class JPanelGroundView extends JPanel {
 		int activeTownIndex = gui.data.getactiveTownIndex();
 		Town activeTown = this.getGuiTown().get(activeTownIndex);
 		super.paint(g);
+		int x=0;
 		for (int i = 0; i < guiFaction.size(); i++) {
-			g.drawString("" + this.guiFaction.get(i).getAmountTown(), 1200, 400 + i * 15);
+
+			if (guiFaction.get(i).getAmountTown() != 0) {
+				g.drawString("" + this.guiFaction.get(i).getAmountTown(), 1200, 400 + i * 15-x*15);
+			}
+			else x++;
 		}
 		// show active Town stats
 		g.drawString("Fraktion: " + activeTown.getTownfaction().getFactionname(), 1080, 150);
 		g.drawString("active Soldaten" + activeTown.getSoldaten().size(), 1080, 170);
 		g.drawString("feindliche Soldaten" + activeTown.getFeindlicheSoldaten().size(), 1080, 190);
 
-		//show frames 
+		// show frames
 		g.fillRect(0, 80, 1500, 10);
 		g.fillRect(0, 800, 1500, 10);
 		g.fillRect(1050, 0, 10, 1500);
@@ -114,14 +119,14 @@ public class JPanelGroundView extends JPanel {
 		}
 		// System.out.println("paint von groundview wurde ausgelöst");
 
-		//Draw städte
+		// Draw städte
 		for (int i = 0; i < guiTown.size(); i++) {
 
 			g.setColor(guiTown.get(i).getTownfaction().getCol());
 			int tx = guiTown.get(i).getStadtposition().x;
 			int ty = guiTown.get(i).getStadtposition().y;
 			g.fillOval(tx, ty, 30, 30);
-			if(i==activeTownIndex) {
+			if (i == activeTownIndex) {
 				g.setColor(Color.green);
 				g.fillOval(tx, ty, 30, 30);
 			}
@@ -129,8 +134,7 @@ public class JPanelGroundView extends JPanel {
 			if (guiTown.get(i).hasWall == true) {
 				g.setColor(Color.black);
 				g.drawOval(tx - 1, ty - 1, 32, 32);
-				
-				
+
 			}
 
 		}

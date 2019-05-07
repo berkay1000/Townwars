@@ -41,9 +41,8 @@ public class Main {
 				e.printStackTrace();
 			}
 
-//			System.out.print(zaehler); 
-//			zaehler++;
 
+//Die datenquelle wird immer wieder updated
 			data.update();
 
 			gui.getCurrentpane().repaint();
