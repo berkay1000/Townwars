@@ -82,9 +82,15 @@ public class Data {
 		int facam = Integer.parseInt(rpf.prop.getProperty("FactionAmounts"));
 		statobject = new StatisticsObject(FactionList);
 
+		while (FactionList.size() < facam) {
+			Color hexcolor = randomnumberColor();
+			FactionList.add(new Faction(hexcolor, "undefined"));
+		}
+
 		for (int i = 0; i < anztown; i++) {
 
 			int randnumb = (int) (Math.random() * (facam));
+
 			townlist.add(new Town(townlist, FactionList.get(randnumb)));
 
 		}
@@ -104,6 +110,16 @@ public class Data {
 			keineStadtzunahe = townlist.get(i).setnahstefeindlicheStadt();
 		}
 
+	}
+
+	private Color randomnumberColor() {
+		int r = (int)( Math.random() * 256);
+		int g = (int) (Math.random() * 256);
+		int b = (int) (Math.random() * 256);
+		Color randomColor = new Color(r, g, b);
+		System.out.println("Randcomcolor:"+r+g+b);
+
+		return randomColor;
 	}
 
 	public void update() {
