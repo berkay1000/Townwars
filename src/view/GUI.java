@@ -18,6 +18,11 @@ public class GUI extends JFrame {
 	JPanelMainMenu mainmenu;
 	JPanelGroundView groundView;
 	JPanelOptionMenu optionmenupane;
+	JPanelStatisticsScreen endscreen;
+
+	public JPanelStatisticsScreen getEndscreen() {
+		return endscreen;
+	}
 
 	public JPanelGroundView getGroundView() {
 		return groundView;
@@ -63,15 +68,13 @@ public class GUI extends JFrame {
 		this.setVisible(true);
 
 	}
-	public void creategroundView() {
-		
-		
-	}
+	
 
 	public void createViews() {
 		mainmenu = new JPanelMainMenu(this);
 		groundView = new JPanelGroundView(this);
 		optionmenupane= new JPanelOptionMenu(this);
+		endscreen = new JPanelStatisticsScreen(this,data.getStatobject());
 		
 	}
 

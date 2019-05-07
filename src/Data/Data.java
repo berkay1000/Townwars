@@ -19,8 +19,13 @@ public class Data {
 	ArrayList<Angriffsarmee> angriffsarmeelist;
 	public boolean hasStarted = false;
 	private int activeTownIndex;
-	
-	
+	int zyklus = 0;
+	StatisticsObject statobject;
+	private boolean gameEnded = false;
+
+	public StatisticsObject getStatobject() {
+		return statobject;
+	}
 
 	public ArrayList<Angriffsarmee> getAngriffsarmeelist() {
 		return angriffsarmeelist;
@@ -75,6 +80,7 @@ public class Data {
 
 		int anztown = Integer.parseInt(rpf.prop.getProperty("townamounts"));
 		int facam = Integer.parseInt(rpf.prop.getProperty("FactionAmounts"));
+		statobject = new StatisticsObject(FactionList);
 
 		for (int i = 0; i < anztown; i++) {
 
@@ -105,6 +111,8 @@ public class Data {
 		if (hasStarted == false) {
 
 		} else {
+
+			zyklus++;
 			for (int i = 0; i < FactionList.size(); i++) {
 				FactionList.get(i).resetTownCount();
 			}
@@ -134,14 +142,27 @@ public class Data {
 
 			}
 		}
-
+		int facAnzTown;
 		for (int i = 0; i < FactionList.size(); i++) {
-			int facAnzTown = FactionList.get(i).getAmountTown();
+
+			facAnzTown = FactionList.get(i).getAmountTown();
+
+			if (zyklus > 10) {
+				FactionList.get(i).factionAmmendToTownAmountInTimeProgess(facAnzTown);
+			}
+
 			int anzTown = Integer.parseInt(rpf.prop.getProperty("townamounts"));
 
-			if (facAnzTown == anzTown) {
+			if (facAnzTown == anzTown & gameEnded == false) {
+
 				hasStarted = false;
+				gameEnded = true;
+				gui.changeView(gui.getEndscreen());
 			}
+		}
+		if (zyklus > 10) {
+
+			zyklus = 0;
 		}
 	}
 

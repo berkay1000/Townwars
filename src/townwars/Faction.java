@@ -1,6 +1,7 @@
 package townwars;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class Faction {
 
@@ -9,6 +10,11 @@ public class Faction {
 	Color col;
 	int fac;
 	String factionname;
+	ArrayList<Integer> TownAmountInTimeProgress;
+
+	public ArrayList<Integer> getTownAmountInTimeProgress() {
+		return TownAmountInTimeProgress;
+	}
 
 	public String getFactionname() {
 		return factionname;
@@ -35,6 +41,7 @@ public class Faction {
 		factionname = inputfactionname;
 		FactionID = factioncounter;
 		factioncounter++;
+		TownAmountInTimeProgress= new ArrayList<Integer>();
 
 	}
 
@@ -44,6 +51,10 @@ public class Faction {
 
 	public void resetTownCount() {
 		amountTown = 0;
+	}
+	
+	public void factionAmmendToTownAmountInTimeProgess(int Timeprogress) {
+		TownAmountInTimeProgress.add(Timeprogress);
 	}
 
 }
