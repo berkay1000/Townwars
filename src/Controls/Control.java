@@ -1,5 +1,6 @@
 package Controls;
 
+import java.awt.Point;
 import java.awt.event.*;
 
 import javax.swing.JButton;
@@ -7,12 +8,16 @@ import javax.swing.JButton;
 import Data.Data;
 import view.GUI;
 
-public class Control implements ActionListener, MouseListener {
+public class Control implements ActionListener, MouseListener, MouseMotionListener {
 
 	GUI gui;
 	Data data;
 
-	@Override
+	
+	public Control() {
+		
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("it hit");
 		System.out.println("" + e.getActionCommand());
@@ -28,35 +33,34 @@ public class Control implements ActionListener, MouseListener {
 			data.clearMap();
 		} else if (e.getActionCommand().equals("save")) {
 			System.out.println("wechsle sicht von optionen zu mainmenu");
-
 			gui.changeView(gui.getMainmenu());
-
 			gui.getOptionMenu().save();
 			data.clearMap();
-
 		} else if (e.getActionCommand().equals("optionen")) {
 			gui.changeView(gui.getOptionMenu());
 			data.clearMap();
-
 		}
-
 		else if (e.getActionCommand().equals("pause")) {
-
 			if (data.hasStarted == false)
 				data.hasStarted = true;
-
 			else if (data.hasStarted == true)
 				data.hasStarted = false;
-
 		} else if (e.getActionCommand().equals("attack")) {
-			System.out.println("angriff!");
+			try {
+				data.getTownlist().get(data.getactiveTownIndex()).createAngriffsArmee();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
 		else {
 			String Townindex = e.getActionCommand();
 			int townindexnumber = Integer.parseInt(Townindex);
-			System.out.println("setze " + townindexnumber + "auf activeTown");
+		
+			
 			data.setactiveTownIndex(townindexnumber);
+			
 		}
 
 	}
@@ -96,9 +100,28 @@ public class Control implements ActionListener, MouseListener {
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	public void mouseReleased(MouseEvent e) {
+		System.out.println("setze mouseReleasePosition");
+		int x= e.getPoint().x;
+		int y= e.getPoint().y-20;
+		Point point= new Point(x,y);
+		data.setMouseReleasedposition(point);
 
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		System.out.println("setze mouseposition");
+		int x= e.getPoint().x;
+		int y= e.getPoint().y-20;
+		Point point= new Point(x,y);
+		data.setMouseposition(point);
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		
 	}
 
 }

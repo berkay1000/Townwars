@@ -84,28 +84,49 @@ public class JPanelGroundView extends JPanel {
 
 		// ArrayList<Soldat> guiSoldat ;
 		int activeTownIndex = gui.data.getactiveTownIndex();
-		Town activeTown = this.getGuiTown().get(activeTownIndex);
+		Town activeTown;
+		if(activeTownIndex!=-1) {
+			activeTown = this.getGuiTown().get(activeTownIndex);
+			
+			
+			
+		}
+		else {
+			activeTown= null;	
+		}
 		super.paint(g);
-		int x=0;
+		int x = 0;
 		for (int i = 0; i < guiFaction.size(); i++) {
 
 			if (guiFaction.get(i).getAmountTown() != 0) {
-				g.drawString("" + this.guiFaction.get(i).getAmountTown(), 1200, 400 + i * 15-x*15);
-			}
-			else x++;
+				g.drawString("" + this.guiFaction.get(i).getAmountTown(), 1200, 400 + i * 15 - x * 15);
+			} else
+				x++;
 		}
 		// show active Town stats
+		if(activeTownIndex!=-1) {
 		g.drawString("Fraktion: " + activeTown.getTownfaction().getFactionname(), 1080, 150);
 		g.drawString("active Soldaten" + activeTown.getSoldaten().size(), 1080, 170);
 		g.drawString("feindliche Soldaten" + activeTown.getFeindlicheSoldaten().size(), 1080, 190);
+		}
+		// Draw Line between active Town and mousePosition
+		try {
+
+			if (gui.data.getMouseposition().x != 0 && activeTown.getTownfaction().getFactionID() == 0) {
+				g.drawLine(activeTown.getStadtposition().x + 15, activeTown.getStadtposition().y + 15,
+						gui.data.getMouseposition().x, gui.data.getMouseposition().y);
+			}
+		} catch (Exception e) {
+			
+		}
 
 		// show frames
+		g.setColor(Color.black);
 		g.fillRect(0, 80, 1500, 10);
 		g.fillRect(0, 800, 1500, 10);
 		g.fillRect(1050, 0, 10, 1500);
 
-		// draw unteren Balken
-
+		// draw unteren Balken(Anteil welche Fraktion wie viele Städte hat)
 		int anzTown = 0;
 		int offset = 0;
 		for (int i = 0; i < guiFaction.size(); i++) {
@@ -117,7 +138,6 @@ public class JPanelGroundView extends JPanel {
 			g.fillRect(10 + offset, 820, anzTown * 4, 30);
 			offset += anzTown * 4;
 		}
-		// System.out.println("paint von groundview wurde ausgelöst");
 
 		// Draw städte
 		for (int i = 0; i < guiTown.size(); i++) {
@@ -189,6 +209,24 @@ public class JPanelGroundView extends JPanel {
 			int tx = guiangriffsarmee.get(i).getPosition().x;
 			int ty = guiangriffsarmee.get(i).getPosition().y;
 			g.fillRect(tx, ty, 5, 5);
+		}
+
+		// draw TargetLines
+		for (int i = 0; i < guiTown.size(); i++) {
+			try {
+				g.setColor(Color.green);
+				if (guiTown.get(i).getTownfaction().getFactionID() == 0) {
+					g.drawLine(guiTown.get(i).getStadtposition().x + 15, guiTown.get(i).getStadtposition().y + 15,
+							guiTown.get(i).getAnvisierteStadt().getStadtposition().x + 15,
+							guiTown.get(i).getAnvisierteStadt().getStadtposition().y + 15);
+				}
+
+			}
+
+			catch (Exception e) {
+
+			}
+
 		}
 
 	}

@@ -7,6 +7,11 @@ public class Faction {
 
 	static int factioncounter = 0;
 	int FactionID = 0;
+	public int getFactionID() {
+		return FactionID;
+	}
+
+
 	Color col;
 	int fac;
 	String factionname;

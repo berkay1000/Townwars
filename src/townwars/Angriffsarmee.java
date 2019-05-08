@@ -60,50 +60,47 @@ public class Angriffsarmee {
 
 	public void movetowardstarget() {
 
-		// bewege zum Ziel
-		int ownpositionx = angriffsarmeeposition.x;
-		int ownpositiony = angriffsarmeeposition.y;
-		int theirpositionx = targetTown.getStadtposition().x;
-		int theirpositiony = targetTown.getStadtposition().y;
-		int deltax = ownpositionx - theirpositionx;
-		int deltay = ownpositiony - theirpositiony;
+		try {
+			int ownpositionx = angriffsarmeeposition.x;
+			int ownpositiony = angriffsarmeeposition.y;
+			int theirpositionx = targetTown.getStadtposition().x;
+			int theirpositiony = targetTown.getStadtposition().y;
+			int deltax = ownpositionx - theirpositionx;
+			int deltay = ownpositiony - theirpositiony;
 
-		if (deltax > 0) {
-			angriffsarmeeposition.x -= 2;
-		} else if (deltax < 0) {
-			angriffsarmeeposition.x += 2;
-		}
-		if (deltay > 0) {
-			angriffsarmeeposition.y -= 2;
-		} else if (deltay < 0) {
-			angriffsarmeeposition.y += 2;
-		}
-
-		// checkt ob armee bereits in der nähe vom zielstadt ist
-		if (deltax < 10 && deltay < 10 && deltax > -10 && deltay > -10) { // noch checken ob zielstadt verbündet
-			for (int x = 0; x < 3; x++) {
-				if (soldaten.isEmpty() == false && this.armyfaction != targetTown.townfaction) {
-					this.soldaten.remove(0);
-					targetTown.getFeindlicheSoldaten().add(new Soldat(targetTown.stadtposition));
-					targetTown.setFactionlastattacked(armyfaction);
-				} else if (soldaten.isEmpty() == false) {
-					this.soldaten.remove(0);
-					targetTown.soldaten.add(new Soldat(targetTown.stadtposition));
-				}
+			if (deltax > 0) {
+				angriffsarmeeposition.x -= 2;
+			} else if (deltax < 0) {
+				angriffsarmeeposition.x += 2;
 			}
-			// ändere stadtfraktion und einheiten werden übertragen falls keine verteidiger
-			// mehr da
-//			if (targetTown.getSoldaten().size() < 2) {
-//				targetTown.setTownfaction(armyfaction);
-//				
-//				targetTown.setSoldaten(targetTown.getFeindlicheSoldaten());
-//				targetTown.setnahstefeindlicheStadt();
+			if (deltay > 0) {
+				angriffsarmeeposition.y -= 2;
+			} else if (deltay < 0) {
+				angriffsarmeeposition.y += 2;
+			}
+
+			// checkt ob armee bereits in der nähe vom zielstadt ist
+			if (deltax < 10 && deltay < 10 && deltax > -10 && deltay > -10) { // noch checken ob zielstadt verbündet
+				for (int x = 0; x < 3; x++) {
+					if (soldaten.isEmpty() == false && this.armyfaction != targetTown.townfaction) {
+						this.soldaten.remove(0);
+						targetTown.getFeindlicheSoldaten().add(new Soldat(targetTown.stadtposition));
+						targetTown.setFactionlastattacked(armyfaction);
+					} else if (soldaten.isEmpty() == false) {
+						this.soldaten.remove(0);
+						targetTown.soldaten.add(new Soldat(targetTown.stadtposition));
+					}
+				}
+
 //                                         
 //			}
 
-		} else {
-		}
+			} else {
+			}
 
+		} catch (Exception e) {
+			System.out.println("kein ziel");
+		}
 	}
 
 	public void update() {

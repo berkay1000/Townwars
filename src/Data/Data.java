@@ -1,6 +1,7 @@
 package Data;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import Controls.Control;
@@ -18,10 +19,21 @@ public class Data {
 	ArrayList<Faction> FactionList;
 	ArrayList<Angriffsarmee> angriffsarmeelist;
 	public boolean hasStarted = false;
-	private int activeTownIndex;
 	int zyklus = 0;
 	StatisticsObject statobject;
+	private int activeTownIndex=-1;
 	private boolean gameEnded = false;
+	Point Mouseposition;
+	Point MousereleasedPosition;
+
+	public Point getMouseposition() {
+		return Mouseposition;
+	}
+
+	public void setMouseposition(Point mouseposition) {
+		Mouseposition = mouseposition;
+		System.out.println("mouseposition geseetzt" + Mouseposition);
+	}
 
 	public StatisticsObject getStatobject() {
 		return statobject;
@@ -61,6 +73,7 @@ public class Data {
 
 	public void createWorld() {
 
+		Mouseposition = new Point();
 		if (angriffsarmeelist == null) {
 			angriffsarmeelist = new ArrayList<Angriffsarmee>();
 			townlist = new ArrayList<Town>();
@@ -91,7 +104,7 @@ public class Data {
 
 			int randnumb = (int) (Math.random() * (facam));
 
-			townlist.add(new Town(townlist, FactionList.get(randnumb)));
+			townlist.add(new Town(townlist, FactionList.get(randnumb),this));
 
 		}
 
@@ -113,11 +126,11 @@ public class Data {
 	}
 
 	private Color randomnumberColor() {
-		int r = (int)( Math.random() * 256);
+		int r = (int) (Math.random() * 256);
 		int g = (int) (Math.random() * 256);
 		int b = (int) (Math.random() * 256);
 		Color randomColor = new Color(r, g, b);
-		System.out.println("Randcomcolor:"+r+g+b);
+		System.out.println("Randcomcolor:" + r + g + b);
 
 		return randomColor;
 	}
@@ -129,14 +142,16 @@ public class Data {
 		} else {
 
 			zyklus++;
+
+			// Count for every Faction the Townamount
 			for (int i = 0; i < FactionList.size(); i++) {
 				FactionList.get(i).resetTownCount();
 			}
 
-//			System.out.println("dataupdate!");
 			for (int i = 0; i < townlist.size(); i++) {
 				townlist.get(i).update();
 
+				// AI tries to create Army
 				try {
 					angriffsarmeelist.add(townlist.get(i).createAngriffsArmeeComputer());
 
@@ -203,6 +218,17 @@ public class Data {
 
 	public int getactiveTownIndex() {
 		return this.activeTownIndex;
+	}
+
+	public void setMouseReleasedposition(Point point) {
+		MousereleasedPosition = point;
+		try {
+		townlist.get(activeTownIndex).setTargetTownNearestToMouse(MousereleasedPosition);
+		}
+		catch(Exception e){
+			
+		}
+		
 	}
 
 }

@@ -3,6 +3,7 @@ package townwars;
 import java.awt.Point;
 import java.util.ArrayList;
 import Buildings.Buildings;
+import Data.Data;
 
 public class Town {
 
@@ -13,6 +14,11 @@ public class Town {
 	ArrayList<Town> otherTowns;
 	Town nahsteStadt;
 	Town nahstefeindlicheStadt;
+	Town anvisierteStadt;
+	public Town getAnvisierteStadt() {
+		return anvisierteStadt;
+	}
+
 	Buildings[] buildings;
 	Governor governor;
 	Point stadtposition;
@@ -28,6 +34,7 @@ public class Town {
 	boolean isPlayer;
 
 	int zyklus = 0; // zyklus damit manche Aktionen nicht zu häufig ausgeführt werden 0 - 60
+	private Data data;
 
 	public Faction getFactionlastattacked() {
 		return factionlastattacked;
@@ -61,8 +68,9 @@ public class Town {
 		this.stadtposition = stadtposition;
 	}
 
-	public Town(ArrayList<Town> inputTown, Faction inputfaction) {
+	public Town(ArrayList<Town> inputTown, Faction inputfaction, Data inputdata) {
 
+		data= inputdata;
 		governor = new Governor();
 		towneco = new Towneconomy(this);
 		townfaction = inputfaction;
@@ -176,8 +184,8 @@ public class Town {
 
 	public Angriffsarmee createAngriffsArmee() throws Exception {
 
-		if (soldaten.size() > governor.getBaseattacksize() && this.isPlayer == true) {
-			Angriffsarmee aa = new Angriffsarmee(stadtposition, townfaction, nahstefeindlicheStadt);
+		if (this.townfaction.getFactionID()==0) {
+			Angriffsarmee aa = new Angriffsarmee(stadtposition, townfaction, anvisierteStadt);
 
 			for (int i = 0; i < governor.getBaseattacksize(); i++) {
 				soldaten.remove(0);
@@ -185,10 +193,11 @@ public class Town {
 
 			}
 
-			return aa;
+			data.getAngriffsarmeelist().add(aa);
 		} else {
 			throw new NullPointerException("demo");
 		}
+		return null;
 
 		// Mit einschränkungen später
 
@@ -319,6 +328,7 @@ public class Town {
 		}
 		this.setnahstefeindlicheStadt();
 		this.getNearestTown();
+		this.governor = new Governor();
 
 	}
 
@@ -336,6 +346,40 @@ public class Town {
 
 	public void setSoldaten(ArrayList<Soldat> soldaten) {
 		this.soldaten = soldaten;
+	}
+
+	public void setTargetTownNearestToMouse(Point mousereleasedPosition) {
+		int eigenePositionX = mousereleasedPosition.x;
+		int eigenePositionY = mousereleasedPosition.y;
+		int anderePositionX;
+		int anderePositionY;
+
+		int deltaX, deltaY;
+		int distance;
+		int distancesum;
+		int mindistance = 1200;
+		int minIndex = 0;
+
+		for (int i = 0; i < otherTowns.size(); i++) {
+			anderePositionX = otherTowns.get(i).stadtposition.x;
+			anderePositionY = otherTowns.get(i).stadtposition.y;
+			deltaX = eigenePositionX - anderePositionX;
+			deltaY = eigenePositionY - anderePositionY;
+			distancesum = deltaX * deltaX + deltaY * deltaY;
+			distance = (int) Math.sqrt(distancesum);
+
+			if (distance == 0) {
+				distance = 1500;
+			}
+
+			if (distance < mindistance && otherTowns.get(i).getTownfaction().FactionID != this.townfaction.FactionID) {
+				// System.out.println(distance + "etwas ist näher dran!");
+				minIndex = i;
+				mindistance = distance;
+			}
+
+			anvisierteStadt = otherTowns.get(minIndex);
+		}
 	}
 
 }
