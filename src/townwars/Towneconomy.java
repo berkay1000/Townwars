@@ -32,7 +32,7 @@ public class Towneconomy {
 		}
 		if(ressourceDerivedToBuildWall>500) {
 			
-			belongsToTown.hasWall=true;
+			belongsToTown.setHasWall(true);
 			ressourceDerivedToBuildWall=0;
 			belongsToTown.fortificationBonus+=15;
 		}

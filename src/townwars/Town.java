@@ -30,8 +30,9 @@ public class Town {
 	int fortificationBonus;
 
 	boolean stadtImKampf;
-	public boolean hasWall;
+ private boolean hasWall;
 	boolean isPlayer;
+	boolean autoFocus;
 
 	int zyklus = 0; // zyklus damit manche Aktionen nicht zu häufig ausgeführt werden 0 - 60
 	private Data data;
@@ -372,7 +373,7 @@ public class Town {
 				distance = 1500;
 			}
 
-			if (distance < mindistance && otherTowns.get(i).getTownfaction().FactionID != this.townfaction.FactionID) {
+			if (distance < mindistance) {
 				// System.out.println(distance + "etwas ist näher dran!");
 				minIndex = i;
 				mindistance = distance;
@@ -380,6 +381,14 @@ public class Town {
 
 			anvisierteStadt = otherTowns.get(minIndex);
 		}
+	}
+
+	public boolean isHasWall() {
+		return hasWall;
+	}
+
+	public void setHasWall(boolean hasWall) {
+		this.hasWall = hasWall;
 	}
 
 }

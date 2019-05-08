@@ -151,7 +151,7 @@ public class JPanelGroundView extends JPanel {
 				g.fillOval(tx, ty, 30, 30);
 			}
 
-			if (guiTown.get(i).hasWall == true) {
+			if (guiTown.get(i).isHasWall() == true) {
 				g.setColor(Color.black);
 				g.drawOval(tx - 1, ty - 1, 32, 32);
 
