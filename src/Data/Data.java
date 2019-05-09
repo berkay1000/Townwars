@@ -21,7 +21,7 @@ public class Data {
 	public boolean hasStarted = false;
 	int zyklus = 0;
 	StatisticsObject statobject;
-	private int activeTownIndex=-1;
+	private int activeTownIndex = -1;
 	private boolean gameEnded = false;
 	Point Mouseposition;
 	Point MousereleasedPosition;
@@ -74,14 +74,16 @@ public class Data {
 	public void createWorld() {
 
 		Mouseposition = new Point();
+
+		// if not set yet, set it. wont be necessary if you restart
 		if (angriffsarmeelist == null) {
 			angriffsarmeelist = new ArrayList<Angriffsarmee>();
 			townlist = new ArrayList<Town>();
 			FactionList = new ArrayList<Faction>();
-			
+
 		}
-		
-	
+
+		// Add Factions to a list. Own Color and description
 		FactionList.add(new Faction(Color.YELLOW, "You"));
 		FactionList.add(new Faction(Color.gray, "Gray walker"));
 		FactionList.add(new Faction(Color.RED, "red walker"));
@@ -93,33 +95,41 @@ public class Data {
 		FactionList.add(new Faction(Color.ORANGE, "Orange walker"));
 		FactionList.add(new Faction(Color.green, "Cyan walker"));
 
+		// get Values from config.
 		int anztown = Integer.parseInt(rpf.prop.getProperty("townamounts"));
 		int facam = Integer.parseInt(rpf.prop.getProperty("FactionAmounts"));
+
+		// create statobject which will be later used to transfer infos to
+		// endscreen/statisticsscreen
 		statobject = new StatisticsObject(FactionList);
 
+		// if the user wants more Factions than the presets above exist, create some
+		// Factions with randomColor
 		while (FactionList.size() < facam) {
 			Color hexcolor = randomnumberColor();
 			FactionList.add(new Faction(hexcolor, "undefined"));
 		}
 
+		// create Town and assign to faction randomly(for now)
 		for (int i = 0; i < anztown; i++) {
 
 			int randnumb = (int) (Math.random() * (facam));
 
-			townlist.add(new Town(townlist, FactionList.get(randnumb),this));
+			townlist.add(new Town(townlist, FactionList.get(randnumb), this));
 
 		}
 
+		// if towns are distributed evenly(not clumped in one place then bool stays
+		// true)
 		boolean keineStadtzunahe = true;
 		for (int i = 0; i < anztown; i++) {
 			keineStadtzunahe = townlist.get(i).getNearestTownforTheFirstTime();
 
 			if (keineStadtzunahe == false) {
 				i = -1;
-				// System.out.println("keineStadtzunahe" + keineStadtzunahe);
+
 			}
 		}
-		// System.out.println("stadtnähe wurde erzeugt");
 
 		for (int i = 0; i < anztown; i++) {
 			keineStadtzunahe = townlist.get(i).setnahstefeindlicheStadt();
@@ -128,11 +138,13 @@ public class Data {
 	}
 
 	private void resetguiButton() {
-	 
+//to reset the invisible guiTownbuttons
 		gui.getGroundView().resetButton();
-		
+
 	}
 
+	
+	//function which gets called to return a random r-g-b Color
 	private Color randomnumberColor() {
 		int r = (int) (Math.random() * 256);
 		int g = (int) (Math.random() * 256);
@@ -143,8 +155,11 @@ public class Data {
 		return randomColor;
 	}
 
+	
+	//to make a game continuos. this get called from the main all the time
 	public void update() {
 
+		//if pausebutton has been hit
 		if (hasStarted == false) {
 
 		} else {
@@ -159,7 +174,7 @@ public class Data {
 			for (int i = 0; i < townlist.size(); i++) {
 				townlist.get(i).update();
 
-				// AI tries to create Army
+				// AI tries to create Army. depending on governor and if enough army is rdy from the town
 				try {
 					angriffsarmeelist.add(townlist.get(i).createAngriffsArmeeComputer());
 
@@ -168,11 +183,13 @@ public class Data {
 				}
 			}
 
+			//update armies, to move and drop units
 			for (int i = 0; i < angriffsarmeelist.size(); i++) {
 				angriffsarmeelist.get(i).update();
 			}
 			for (int i = 0; i < angriffsarmeelist.size();) {
 
+				//remove armies without troops
 				if (angriffsarmeelist.get(i).getSoldaten().size() == 0) {
 					angriffsarmeelist.remove(i);
 				} else {
@@ -186,12 +203,13 @@ public class Data {
 
 			facAnzTown = FactionList.get(i).getAmountTown();
 
+			//save up Faction story. when they have many towns and when they lived miserably(for endscreen)
 			if (zyklus > 10) {
 				FactionList.get(i).factionAmmendToTownAmountInTimeProgess(facAnzTown);
 			}
 
+			//if some faction has all towns, game will end
 			int anzTown = Integer.parseInt(rpf.prop.getProperty("townamounts"));
-
 			if (facAnzTown == anzTown & gameEnded == false) {
 
 				hasStarted = false;
@@ -205,13 +223,14 @@ public class Data {
 		}
 	}
 
+	//reset army, town, factions and create a new world
 	public void clearMap() {
 		while (angriffsarmeelist.isEmpty() == false) {
 			angriffsarmeelist.remove(0);
 		}
 		while (townlist.isEmpty() == false) {
 			townlist.remove(0);
-			
+
 		}
 		while (FactionList.isEmpty() == false) {
 			FactionList.remove(0);
@@ -233,15 +252,14 @@ public class Data {
 	public void setMouseReleasedposition(Point point) {
 		MousereleasedPosition = point;
 		;
-		MousereleasedPosition.y-=30;
-		
+		MousereleasedPosition.y -= 30;
+
 		try {
-		townlist.get(activeTownIndex).setTargetTownNearestToMouse(MousereleasedPosition);
+			townlist.get(activeTownIndex).setTargetTownNearestToMouse(MousereleasedPosition);
+		} catch (Exception e) {
+
 		}
-		catch(Exception e){
-			
-		}
-		
+
 	}
 
 }
