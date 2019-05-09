@@ -29,7 +29,7 @@ public class Main {
 		gui.setSize(Integer.parseInt(data.rpf.prop.getProperty("framewidth")),
 				Integer.parseInt(data.rpf.prop.getProperty("frameheight")));
 		gui.setVisible(true);
-		
+
 		gui.addMouseListener(ctrl);
 		gui.addMouseMotionListener(ctrl);
 
@@ -43,7 +43,6 @@ public class Main {
 
 				e.printStackTrace();
 			}
-
 
 //Die datenquelle wird immer wieder updated
 			data.update();

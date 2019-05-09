@@ -79,9 +79,9 @@ public class Data {
 			townlist = new ArrayList<Town>();
 			FactionList = new ArrayList<Faction>();
 		}
-
-		FactionList.add(new Faction(Color.GRAY, "You"));
-		FactionList.add(new Faction(Color.YELLOW, "yellow walker"));
+	
+		FactionList.add(new Faction(Color.YELLOW, "You"));
+		FactionList.add(new Faction(Color.gray, "Gray walker"));
 		FactionList.add(new Faction(Color.RED, "red walker"));
 		FactionList.add(new Faction(Color.black, "black walker"));
 		FactionList.add(new Faction(Color.BLUE, "Blue walker"));
@@ -203,9 +203,11 @@ public class Data {
 		}
 		while (townlist.isEmpty() == false) {
 			townlist.remove(0);
+			
 		}
 		while (FactionList.isEmpty() == false) {
 			FactionList.remove(0);
+			Faction.setFactioncounter(0);
 		}
 
 		createWorld();
@@ -222,6 +224,9 @@ public class Data {
 
 	public void setMouseReleasedposition(Point point) {
 		MousereleasedPosition = point;
+		;
+		MousereleasedPosition.y-=30;
+		
 		try {
 		townlist.get(activeTownIndex).setTargetTownNearestToMouse(MousereleasedPosition);
 		}

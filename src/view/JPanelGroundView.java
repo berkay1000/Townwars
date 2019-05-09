@@ -3,8 +3,14 @@ package view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -31,6 +37,7 @@ public class JPanelGroundView extends JPanel {
 	ArrayList<Angriffsarmee> guiangriffsarmee;
 
 	public JPanelGroundView(GUI inputgui) {
+		System.out.println("erstelle JPanel");
 		townbutton = new ArrayList<JButton>();
 		guiangriffsarmee = new ArrayList<Angriffsarmee>();
 		guiSoldatfeindlich = new ArrayList<Soldat>();
@@ -81,6 +88,15 @@ public class JPanelGroundView extends JPanel {
 	}
 
 	public void paint(Graphics g) {
+		
+		
+		BufferedImage image=null;
+		try {
+			 image = ImageIO.read(new File("src/view/Sprites/town.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		// ArrayList<Soldat> guiSoldat ;
 		int activeTownIndex = gui.data.getactiveTownIndex();
@@ -114,7 +130,7 @@ public class JPanelGroundView extends JPanel {
 
 			if (gui.data.getMouseposition().x != 0 && activeTown.getTownfaction().getFactionID() == 0) {
 				g.drawLine(activeTown.getStadtposition().x + 15, activeTown.getStadtposition().y + 15,
-						gui.data.getMouseposition().x, gui.data.getMouseposition().y);
+						gui.data.getMouseposition().x, gui.data.getMouseposition().y-30);
 			}
 		} catch (Exception e) {
 			
@@ -145,10 +161,11 @@ public class JPanelGroundView extends JPanel {
 			g.setColor(guiTown.get(i).getTownfaction().getCol());
 			int tx = guiTown.get(i).getStadtposition().x;
 			int ty = guiTown.get(i).getStadtposition().y;
-			g.fillOval(tx, ty, 30, 30);
+			g.fillOval(tx, ty, 32, 32);
 			if (i == activeTownIndex) {
 				g.setColor(Color.green);
-				g.fillOval(tx, ty, 30, 30);
+				g.fillOval(tx, ty, 32, 32);
+				
 			}
 
 			if (guiTown.get(i).isHasWall() == true) {
@@ -156,6 +173,8 @@ public class JPanelGroundView extends JPanel {
 				g.drawOval(tx - 1, ty - 1, 32, 32);
 
 			}
+		
+			g.drawImage(image, tx, ty+2, null);
 
 		}
 

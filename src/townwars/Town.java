@@ -15,6 +15,7 @@ public class Town {
 	Town nahsteStadt;
 	Town nahstefeindlicheStadt;
 	Town anvisierteStadt;
+
 	public Town getAnvisierteStadt() {
 		return anvisierteStadt;
 	}
@@ -30,7 +31,7 @@ public class Town {
 	int fortificationBonus;
 
 	boolean stadtImKampf;
- private boolean hasWall;
+	private boolean hasWall;
 	boolean isPlayer;
 	boolean autoFocus;
 
@@ -71,7 +72,7 @@ public class Town {
 
 	public Town(ArrayList<Town> inputTown, Faction inputfaction, Data inputdata) {
 
-		data= inputdata;
+		data = inputdata;
 		governor = new Governor();
 		towneco = new Towneconomy(this);
 		townfaction = inputfaction;
@@ -118,9 +119,7 @@ public class Town {
 
 	private void stadtKampf() {
 
-//this.createSoldiers();
-//			System.out.println(soldaten.size());
-//			System.out.println(feindlicheSoldaten.size());
+
 
 		int kampfgroesse = feindlicheSoldaten.size() / 30;
 		if (kampfgroesse == 0 || kampfgroesse == 1)
@@ -184,19 +183,38 @@ public class Town {
 	}
 
 	public Angriffsarmee createAngriffsArmee() throws Exception {
+		
+		
 
-		if (this.townfaction.getFactionID()==0) {
+		if (this.townfaction.getFactionID() == 0&&anvisierteStadt!= null) {
+			
+			System.out.println(stadtposition);
+			System.out.println(townfaction);
+			System.out.println(anvisierteStadt);
 			Angriffsarmee aa = new Angriffsarmee(stadtposition, townfaction, anvisierteStadt);
 
+			System.out.println("governor baseattacksize: "+governor.getBaseattacksize());
 			for (int i = 0; i < governor.getBaseattacksize(); i++) {
+				
+				if(soldaten.isEmpty())break;
+				
 				soldaten.remove(0);
 				aa.addToArmy();
-
+				System.out.print("i");
+				
 			}
-
+			
+			
+			System.out.println("füge armeeliste hinzu" );
+			System.out.print("armeeliste größe vorher:");
+			System.out.println(data.getAngriffsarmeelist().size());
+			
 			data.getAngriffsarmeelist().add(aa);
+			System.out.print("armeeliste größe nacher:");
+			System.out.println(data.getAngriffsarmeelist().size());
+			
 		} else {
-			throw new NullPointerException("demo");
+			throw new NullPointerException("no target or not your faction");
 		}
 		return null;
 
@@ -330,6 +348,10 @@ public class Town {
 		this.setnahstefeindlicheStadt();
 		this.getNearestTown();
 		this.governor = new Governor();
+		
+		if(townfaction.FactionID==0) {
+			isPlayer=true;
+		}
 
 	}
 
@@ -377,9 +399,12 @@ public class Town {
 				// System.out.println(distance + "etwas ist näher dran!");
 				minIndex = i;
 				mindistance = distance;
+				anvisierteStadt = otherTowns.get(minIndex);
+			}
+			if (mindistance > 45) {
+				anvisierteStadt = null;
 			}
 
-			anvisierteStadt = otherTowns.get(minIndex);
 		}
 	}
 

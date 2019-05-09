@@ -6,6 +6,15 @@ import java.util.ArrayList;
 public class Faction {
 
 	static int factioncounter = 0;
+	public static int getFactioncounter() {
+		return factioncounter;
+	}
+
+	public static void setFactioncounter(int factioncounter) {
+		Faction.factioncounter = factioncounter;
+	}
+
+
 	int FactionID = 0;
 	public int getFactionID() {
 		return FactionID;

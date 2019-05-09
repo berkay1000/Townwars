@@ -1,5 +1,6 @@
 package Controls;
 
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.*;
 
@@ -26,6 +27,7 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 			System.out.println("wechsle sicht von main zu ground");
 			gui.changeView(gui.getGroundView());
 			data.hasStarted = true;
+			
 		} else if (e.getActionCommand().equals("exit")) {
 			System.out.println("wechsle sicht von ground zu main");
 			data.hasStarted = false;
@@ -49,7 +51,7 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 			try {
 				data.getTownlist().get(data.getactiveTownIndex()).createAngriffsArmee();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
+				
 				
 			}
 		}
@@ -101,20 +103,19 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("setze mouseReleasePosition");
-		int x= e.getPoint().x;
-		int y= e.getPoint().y-20;
-		Point point= new Point(x,y);
+//		System.out.println("setze mouseReleasePosition");
+		Point point= MouseInfo.getPointerInfo().getLocation();
+		
+		
 		data.setMouseReleasedposition(point);
 
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		System.out.println("setze mouseposition");
-		int x= e.getPoint().x;
-		int y= e.getPoint().y-20;
-		Point point= new Point(x,y);
+//		System.out.println("setze mouseposition");
+		Point point= MouseInfo.getPointerInfo().getLocation();
+		
 		data.setMouseposition(point);
 		
 	}
