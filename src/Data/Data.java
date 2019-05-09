@@ -78,7 +78,9 @@ public class Data {
 			angriffsarmeelist = new ArrayList<Angriffsarmee>();
 			townlist = new ArrayList<Town>();
 			FactionList = new ArrayList<Faction>();
+			
 		}
+		
 	
 		FactionList.add(new Faction(Color.YELLOW, "You"));
 		FactionList.add(new Faction(Color.gray, "Gray walker"));
@@ -123,6 +125,12 @@ public class Data {
 			keineStadtzunahe = townlist.get(i).setnahstefeindlicheStadt();
 		}
 
+	}
+
+	private void resetguiButton() {
+	 
+		gui.getGroundView().resetButton();
+		
 	}
 
 	private Color randomnumberColor() {

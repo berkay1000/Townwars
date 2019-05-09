@@ -271,4 +271,24 @@ public class JPanelGroundView extends JPanel {
 		this.guiangriffsarmee = guiArmeen;
 	}
 
+	public void resetButton() {
+		
+		for (int i = 0; i < guiTown.size(); i++) {
+			// System.out.println("stadtknopf wird erstellt");
+
+			int posx = guiTown.get(i).getStadtposition().x;
+			int posy = guiTown.get(i).getStadtposition().y;
+			townbutton.add(new JButton());
+
+			townbutton.get(i).setBounds(posx, posy, 32, 32);
+			townbutton.get(i).setOpaque(false);
+			townbutton.get(i).setContentAreaFilled(false);
+			townbutton.get(i).setBorderPainted(false);
+			townbutton.get(i).addActionListener(gui.ctrl);
+			townbutton.get(i).setActionCommand("" + i);
+			this.add(townbutton.get(i));
+		}
+		
+	}
+
 }

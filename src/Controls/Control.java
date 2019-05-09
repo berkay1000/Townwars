@@ -33,8 +33,9 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 			data.hasStarted = false;
 			gui.changeView(gui.getMainmenu());
 			data.clearMap();
+			gui.getGroundView().resetButton();
 		} else if (e.getActionCommand().equals("save")) {
-			System.out.println("wechsle sicht von optionen zu mainmenu");
+			System.out.println("wechsle sicht von optionen zu mainmenu"); 
 			gui.changeView(gui.getMainmenu());
 			gui.getOptionMenu().save();
 			data.clearMap();
