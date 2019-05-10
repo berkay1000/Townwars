@@ -32,7 +32,7 @@ public class JPanelGroundView extends JPanel {
 	GUI gui;
 	JButton exit;
 	JButton pause;
-	JButton attack;
+	JButton attack,autoAttack, autoDefend,standStill;
 	ArrayList<JButton> townbutton;
 	ArrayList<Angriffsarmee> guiangriffsarmee;
 
@@ -48,6 +48,7 @@ public class JPanelGroundView extends JPanel {
 		exit.setBounds(10, 10, 100, 50);
 		exit.setVisible(true);
 		exit.setActionCommand("exit");
+		
 		pause = new JButton("pause");
 		pause.setBounds(120, 10, 100, 50);
 		pause.setVisible(true);
@@ -57,13 +58,38 @@ public class JPanelGroundView extends JPanel {
 		attack.setBounds(1080, 200, 100, 50);
 		attack.setVisible(true);
 		attack.setActionCommand("attack");
+		
+		autoAttack = new JButton("");
+		autoAttack.setBounds(1060, 270, 50, 50);
+		autoAttack.setVisible(true);
+		autoAttack.setActionCommand("autoAttack");
+
+		autoDefend = new JButton("");
+		autoDefend.setBounds(1120, 270, 50, 50);
+		autoDefend.setVisible(true);
+		autoDefend.setActionCommand("autoDefend");
+		
+		standStill = new JButton("");
+		standStill.setBounds(1180, 270, 50, 50);
+		standStill.setVisible(true);
+		standStill.setActionCommand("standStill");
+		
+		
 
 		attack.addActionListener(gui.ctrl);
 		exit.addActionListener(gui.ctrl);
 		pause.addActionListener(gui.ctrl);
+		autoAttack.addActionListener(gui.ctrl);
+		autoDefend.addActionListener(gui.ctrl);
+		standStill.addActionListener(gui.ctrl);
+		
 		this.add(exit);
 		this.add(pause);
 		this.add(attack);
+		this.add(autoAttack);
+		this.add(autoDefend);
+		this.add(standStill);
+		
 
 		guiTown = gui.data.getTownlist();
 		guiFaction = gui.data.getFactionList();
@@ -97,6 +123,9 @@ public class JPanelGroundView extends JPanel {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		//Beschriftung rechts
+		
 
 		// ArrayList<Soldat> guiSoldat ;
 		int activeTownIndex = gui.data.getactiveTownIndex();
@@ -111,6 +140,9 @@ public class JPanelGroundView extends JPanel {
 			activeTown= null;	
 		}
 		super.paint(g);
+		g.drawString("autoatt",1060 , 340);
+		g.drawString("autodef", 1120, 340);
+		g.drawString("stand", 1190, 340);
 		int x = 0;
 		for (int i = 0; i < guiFaction.size(); i++) {
 
@@ -173,6 +205,7 @@ public class JPanelGroundView extends JPanel {
 				g.drawOval(tx - 1, ty - 1, 32, 32);
 
 			}
+			//wenn bool auto stances aktiv sind soll auf karte markiert werden
 		
 			g.drawImage(image, tx, ty+2, null);
 
@@ -247,6 +280,8 @@ public class JPanelGroundView extends JPanel {
 			}
 
 		}
+	
+	
 
 	}
 

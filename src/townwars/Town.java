@@ -37,6 +37,9 @@ public class Town {
 
 	int zyklus = 0; // zyklus damit manche Aktionen nicht zu häufig ausgeführt werden 0 - 60
 	private Data data;
+	private boolean boolAutoDefend = false;
+	private boolean boolAutoAttack = false;
+	private boolean boolStandStill = true;
 
 	public Faction getFactionlastattacked() {
 		return factionlastattacked;
@@ -119,8 +122,6 @@ public class Town {
 
 	private void stadtKampf() {
 
-
-
 		int kampfgroesse = feindlicheSoldaten.size() / 30;
 		if (kampfgroesse == 0 || kampfgroesse == 1)
 			kampfgroesse = 2;
@@ -162,9 +163,18 @@ public class Town {
 
 	public Angriffsarmee createAngriffsArmeeComputer() throws Exception {
 
-		if (soldaten.size() > governor.getBaseattacksize() && this.isPlayer == false) {
-			Angriffsarmee aa = new Angriffsarmee(stadtposition, townfaction, nahstefeindlicheStadt);
-
+		//nur bots und autoattackierende Player-städte gehen diesen weg
+		if ((soldaten.size() > governor.getBaseattacksize() && this.isPlayer == false)
+				|| (soldaten.size() > governor.getBaseattacksize() && boolAutoAttack == true)) {
+			Angriffsarmee aa;
+			System.out.println(anvisierteStadt);
+			if (anvisierteStadt == null) {
+				System.out.println("nahstefeindlicheStadt");
+				aa = new Angriffsarmee(stadtposition, townfaction, nahstefeindlicheStadt);
+			} else {
+				System.out.println("anvisierteStadt");
+				aa = new Angriffsarmee(stadtposition, townfaction, anvisierteStadt);
+			}
 			int createArmyOffset = governor.defensivness * 10;
 			for (int i = createArmyOffset; i < governor.getBaseattacksize(); i++) {
 				soldaten.remove(0);
@@ -183,36 +193,34 @@ public class Town {
 	}
 
 	public Angriffsarmee createAngriffsArmee() throws Exception {
-		
-		
 
-		if (this.townfaction.getFactionID() == 0&&anvisierteStadt!= null) {
-			
+		if (this.townfaction.getFactionID() == 0 && anvisierteStadt != null) {
+
 			System.out.println(stadtposition);
 			System.out.println(townfaction);
 			System.out.println(anvisierteStadt);
 			Angriffsarmee aa = new Angriffsarmee(stadtposition, townfaction, anvisierteStadt);
 
-			System.out.println("governor baseattacksize: "+governor.getBaseattacksize());
+			System.out.println("governor baseattacksize: " + governor.getBaseattacksize());
 			for (int i = 0; i < governor.getBaseattacksize(); i++) {
-				
-				if(soldaten.isEmpty())break;
-				
+
+				if (soldaten.isEmpty())
+					break;
+
 				soldaten.remove(0);
 				aa.addToArmy();
 				System.out.print("i");
-				
+
 			}
-			
-			
-			System.out.println("füge armeeliste hinzu" );
+
+			System.out.println("füge armeeliste hinzu");
 			System.out.print("armeeliste größe vorher:");
 			System.out.println(data.getAngriffsarmeelist().size());
-			
+
 			data.getAngriffsarmeelist().add(aa);
 			System.out.print("armeeliste größe nacher:");
 			System.out.println(data.getAngriffsarmeelist().size());
-			
+
 		} else {
 			throw new NullPointerException("no target or not your faction");
 		}
@@ -222,7 +230,7 @@ public class Town {
 
 	}
 
-	public boolean getNearestTownforTheFirstTime() { // gives every town the nearest neighbor but additionally checks if
+	public boolean setNearestTownforTheFirstTime() { // gives every town the nearest neighbor but additionally checks if
 														// they are too close and then gives the town a new position
 		int eigenePositionX = stadtposition.x;
 		int eigenePositionY = stadtposition.y;
@@ -268,7 +276,7 @@ public class Town {
 
 	}
 
-	public boolean getNearestTown() { // gives every town the nearest neighbor
+	public boolean setNearestTown() { // gives every town the nearest neighbor
 		int eigenePositionX = stadtposition.x;
 		int eigenePositionY = stadtposition.y;
 		int anderePositionX, anderePositionY;
@@ -346,11 +354,11 @@ public class Town {
 			this.soldaten.add(new Soldat(stadtposition));
 		}
 		this.setnahstefeindlicheStadt();
-		this.getNearestTown();
+		this.setNearestTown();
 		this.governor = new Governor();
-		
-		if(townfaction.FactionID==0) {
-			isPlayer=true;
+
+		if (townfaction.FactionID == 0) {
+			isPlayer = true;
 		}
 
 	}
@@ -414,6 +422,27 @@ public class Town {
 
 	public void setHasWall(boolean hasWall) {
 		this.hasWall = hasWall;
+	}
+
+	public void boolEnableAutoDefend() {
+		boolAutoDefend = true;
+		boolAutoAttack = false;
+		boolStandStill = false;
+
+	}
+
+	public void boolEnableAutoAttack() {
+		boolAutoDefend = false;
+		boolAutoAttack = true;
+		boolStandStill = false;
+
+	}
+
+	public void boolEnablestandStill() {
+		boolAutoDefend = false;
+		boolAutoAttack = false;
+		boolStandStill = true;
+
 	}
 
 }

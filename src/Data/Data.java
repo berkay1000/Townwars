@@ -123,7 +123,7 @@ public class Data {
 		// true)
 		boolean keineStadtzunahe = true;
 		for (int i = 0; i < anztown; i++) {
-			keineStadtzunahe = townlist.get(i).getNearestTownforTheFirstTime();
+			keineStadtzunahe = townlist.get(i).setNearestTownforTheFirstTime();
 
 			if (keineStadtzunahe == false) {
 				i = -1;

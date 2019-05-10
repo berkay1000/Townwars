@@ -14,11 +14,10 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 	GUI gui;
 	Data data;
 
-	
 	public Control() {
-		
+
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("it hit");
 		System.out.println("" + e.getActionCommand());
@@ -27,7 +26,7 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 			System.out.println("wechsle sicht von main zu ground");
 			gui.changeView(gui.getGroundView());
 			data.hasStarted = true;
-			
+
 		} else if (e.getActionCommand().equals("exit")) {
 			System.out.println("wechsle sicht von ground zu main");
 			data.hasStarted = false;
@@ -35,15 +34,14 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 			data.clearMap();
 			gui.getGroundView().resetButton();
 		} else if (e.getActionCommand().equals("save")) {
-			System.out.println("wechsle sicht von optionen zu mainmenu"); 
+			System.out.println("wechsle sicht von optionen zu mainmenu");
 			gui.changeView(gui.getMainmenu());
 			gui.getOptionMenu().save();
 			data.clearMap();
 		} else if (e.getActionCommand().equals("optionen")) {
 			gui.changeView(gui.getOptionMenu());
 			data.clearMap();
-		}
-		else if (e.getActionCommand().equals("pause")) {
+		} else if (e.getActionCommand().equals("pause")) {
 			if (data.hasStarted == false)
 				data.hasStarted = true;
 			else if (data.hasStarted == true)
@@ -52,18 +50,36 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 			try {
 				data.getTownlist().get(data.getactiveTownIndex()).createAngriffsArmee();
 			} catch (Exception e1) {
-				
-				
+
+			}
+		}
+
+		else if (e.getActionCommand().equals("autoAttack")) {
+			try {
+				data.getTownlist().get(data.getactiveTownIndex()).boolEnableAutoAttack();
+			} catch (Exception e1) {
+
+			}
+		} else if (e.getActionCommand().equals("autoDefend")) {
+			try {
+				data.getTownlist().get(data.getactiveTownIndex()).boolEnableAutoDefend();
+			} catch (Exception e1) {
+
+			}
+		} else if (e.getActionCommand().equals("standStill")) {
+			try {
+				data.getTownlist().get(data.getactiveTownIndex()).boolEnablestandStill();
+			} catch (Exception e1) {
+
 			}
 		}
 
 		else {
 			String Townindex = e.getActionCommand();
 			int townindexnumber = Integer.parseInt(Townindex);
-		
-			
+
 			data.setactiveTownIndex(townindexnumber);
-			
+
 		}
 
 	}
@@ -105,9 +121,8 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 	@Override
 	public void mouseReleased(MouseEvent e) {
 //		System.out.println("setze mouseReleasePosition");
-		Point point= MouseInfo.getPointerInfo().getLocation();
-		
-		
+		Point point = MouseInfo.getPointerInfo().getLocation();
+
 		data.setMouseReleasedposition(point);
 
 	}
@@ -115,15 +130,15 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 	@Override
 	public void mouseDragged(MouseEvent e) {
 //		System.out.println("setze mouseposition");
-		Point point= MouseInfo.getPointerInfo().getLocation();
-		
+		Point point = MouseInfo.getPointerInfo().getLocation();
+
 		data.setMouseposition(point);
-		
+
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		
+
 	}
 
 }
