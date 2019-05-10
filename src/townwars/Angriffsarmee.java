@@ -27,7 +27,7 @@ public class Angriffsarmee {
 		this.angriffsarmeeposition = position;
 	}
 
-	Angriffsarmee(Point stadtposition, Faction townfaction, Town targetTown) {
+	public Angriffsarmee(Point stadtposition, Faction townfaction, Town targetTown) {
 		angriffsarmeeposition = new Point();
 
 		this.targetTown = targetTown;

@@ -37,6 +37,10 @@ public class JPanelGroundView extends JPanel {
 	ArrayList<Angriffsarmee> guiangriffsarmee;
 
 	public JPanelGroundView(GUI inputgui) {
+		
+		
+		
+		
 		System.out.println("erstelle JPanel");
 		townbutton = new ArrayList<JButton>();
 		guiangriffsarmee = new ArrayList<Angriffsarmee>();
@@ -87,6 +91,7 @@ public class JPanelGroundView extends JPanel {
 		this.add(autoAttack);
 		this.add(autoDefend);
 		this.add(standStill);
+		this.addKeyListener(gui.ctrl);
 
 		guiTown = gui.data.getTownlist();
 		guiFaction = gui.data.getFactionList();

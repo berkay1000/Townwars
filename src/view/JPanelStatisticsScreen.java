@@ -28,16 +28,19 @@ public class JPanelStatisticsScreen extends JPanel {
 		float timepointskipcounter = 0;
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(2));
-		if (guiFactionList.get(0).getTownAmountInTimeProgress().size() > 1100) {
 
-			// if there are to many timepoints(endscreen graphs would get out of window then
-			// configure a factor
-			// which will count up and skip timepoints to compress the graph
-			timepointReducingfactor = guiFactionList.get(0).getTownAmountInTimeProgress().size() / 1100;
-			timepointReducingfactor -= 1;
-			timepointskipcounter = 0;
+		System.out.println("originalsize:" + guiFactionList.get(3).getTownAmountInTimeProgress().size());
+
+		for (int i = 0; i < guiFactionList.size(); i++) {
+			while (guiFactionList.get(i).getTownAmountInTimeProgress().size() > 1100) {
+
+				int randomNumber = (int) (Math.random() * guiFactionList.get(i).getTownAmountInTimeProgress().size());
+
+				guiFactionList.get(i).getTownAmountInTimeProgress().remove(randomNumber);
+			}
 		}
-
+		System.out.println("danach:" + guiFactionList.get(3).getTownAmountInTimeProgress().size());
+		
 		g.drawLine(100, 800, 1000, 800);
 
 		for (int i = 0; i < guiFactionList.size() - 1; i++) {
@@ -45,15 +48,11 @@ public class JPanelStatisticsScreen extends JPanel {
 
 			for (int timep = 0; timep < guiFactionList.get(i).getTownAmountInTimeProgress().size() - 1; timep++) {
 
-				while (timepointskipcounter > 1) {
-					timepointskipcounter -= 1;
-					guiFactionList.get(i).getTownAmountInTimeProgress().remove(timep);
-				}
-
 				g2.drawLine(100 + timep, 800 - guiFactionList.get(i).getTownAmountInTimeProgress().get(timep) * 3,
 						100 + (timep + 1),
 						800 - guiFactionList.get(i).getTownAmountInTimeProgress().get(timep + 1) * 3);
 			}
+			System.out.println(guiFactionList.get(i).getTownAmountInTimeProgress().size());
 
 		}
 

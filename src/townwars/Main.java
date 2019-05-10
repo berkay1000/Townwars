@@ -32,6 +32,9 @@ public class Main {
 
 		gui.addMouseListener(ctrl);
 		gui.addMouseMotionListener(ctrl);
+		gui.addKeyListener(ctrl);
+		gui.setFocusable(true);
+		gui.setFocusTraversalKeysEnabled(false);
 
 		int zaehler = 0;
 

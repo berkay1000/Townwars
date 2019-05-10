@@ -6,16 +6,22 @@ import java.awt.event.*;
 
 import javax.swing.JButton;
 
+import com.sun.prism.paint.Color;
+
 import Data.Data;
+import townwars.Angriffsarmee;
+import townwars.Faction;
+import townwars.Town;
 import view.GUI;
 
-public class Control implements ActionListener, MouseListener, MouseMotionListener {
+public class Control implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
 
 	GUI gui;
 	Data data;
 
 	public Control() {
 
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -73,7 +79,8 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 
 			}
 		}
-
+		
+		
 		else {
 			String Townindex = e.getActionCommand();
 			int townindexnumber = Integer.parseInt(Townindex);
@@ -139,6 +146,38 @@ public class Control implements ActionListener, MouseListener, MouseMotionListen
 	@Override
 	public void mouseMoved(MouseEvent e) {
 
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println("es wurde gedrückt");
+		Town targetTown;
+		targetTown=data.getTownlist().get(0).getTargetTownNearestToMouse(MouseInfo.getPointerInfo().getLocation());
+		
+		Angriffsarmee aa=new Angriffsarmee(	new Point(300,300),data.getFactionList().get(2) , targetTown);
+		
+		for(int i=0;i <10000;i++) {
+		aa.addToArmy();
+		}
+		
+		data.getAngriffsarmeelist().add(aa);
+		
+			
+
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+		
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
+		
 	}
 
 }
