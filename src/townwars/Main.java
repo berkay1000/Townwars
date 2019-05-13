@@ -21,6 +21,7 @@ public class Main {
 		gui.setDATACTRL(data, ctrl);
 
 		// erstelle unterliegenden Jpanes wie Menü und groundview/schlachtfeld
+		ctrl.createControls();
 		gui.createViews();
 		gui.setpanetomain();// zuerst kriegt mainmenü den fokus
 
@@ -29,10 +30,11 @@ public class Main {
 		gui.setSize(Integer.parseInt(data.rpf.prop.getProperty("framewidth")),
 				Integer.parseInt(data.rpf.prop.getProperty("frameheight")));
 		gui.setVisible(true);
-
-		gui.addMouseListener(ctrl);
-		gui.addMouseMotionListener(ctrl);
-		gui.addKeyListener(ctrl);
+		
+		
+		gui.addMouseListener(ctrl.cm);
+		gui.addMouseMotionListener(ctrl.cm);
+		gui.addKeyListener(ctrl.ck);
 		gui.setFocusable(true);
 		gui.setFocusTraversalKeysEnabled(false);
 

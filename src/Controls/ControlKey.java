@@ -2,46 +2,22 @@ package Controls;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.event.*;
-
-import javax.swing.JButton;
-
-import com.sun.prism.paint.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import Data.Data;
 import townwars.Angriffsarmee;
-import townwars.Faction;
 import townwars.Town;
-import view.GUI;
 
-public class Control  {
-
-	GUI gui;
+public class ControlKey implements KeyListener {
+	
+	Control ctrl;
 	Data data;
-public ControlButton cb;
-public ControlKey ck;
-public ControlMouse cm;
-	public Control() {
-		
+
+	public ControlKey(Control control) {
+		ctrl= control;
+		data= ctrl.data;
 	}
-	
-	public void createControls() {
-		 cb= new ControlButton(this);
-		 ck= new ControlKey(this);
-		 cm= new ControlMouse(this);
-		
-	}
-
-	
-
-	
-
-	public void setGUIDATA(GUI g, Data d) {
-		gui = g;
-		data = d;
-	}
-
-	
 
 	
 	public void keyPressed(KeyEvent e) {
@@ -58,7 +34,7 @@ public ControlMouse cm;
 		data.getAngriffsarmeelist().add(aa);
 		
 			
-
+	
 		
 	}
 
@@ -74,13 +50,7 @@ public ControlMouse cm;
 		
 		
 	}
-
-	public Data getData() {
-		return data;
-	}
-
-	public GUI getGui() {
-		return gui;
-	}
+	
+	
 
 }

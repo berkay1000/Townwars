@@ -78,12 +78,12 @@ public class JPanelGroundView extends JPanel {
 		standStill.setVisible(true);
 		standStill.setActionCommand("standStill");
 
-		attack.addActionListener(gui.ctrl);
-		exit.addActionListener(gui.ctrl);
-		pause.addActionListener(gui.ctrl);
-		autoAttack.addActionListener(gui.ctrl);
-		autoDefend.addActionListener(gui.ctrl);
-		standStill.addActionListener(gui.ctrl);
+		attack.addActionListener(gui.ctrl.cb);
+		exit.addActionListener(gui.ctrl.cb);
+		pause.addActionListener(gui.ctrl.cb);
+		autoAttack.addActionListener(gui.ctrl.cb);
+		autoDefend.addActionListener(gui.ctrl.cb);
+		standStill.addActionListener(gui.ctrl.cb);
 
 		this.add(exit);
 		this.add(pause);
@@ -91,7 +91,7 @@ public class JPanelGroundView extends JPanel {
 		this.add(autoAttack);
 		this.add(autoDefend);
 		this.add(standStill);
-		this.addKeyListener(gui.ctrl);
+		this.addKeyListener(gui.ctrl.ck);
 
 		guiTown = gui.data.getTownlist();
 		guiFaction = gui.data.getFactionList();
@@ -107,7 +107,7 @@ public class JPanelGroundView extends JPanel {
 			townbutton.get(i).setOpaque(false);
 			townbutton.get(i).setContentAreaFilled(false);
 			townbutton.get(i).setBorderPainted(false);
-			townbutton.get(i).addActionListener(gui.ctrl);
+			townbutton.get(i).addActionListener(gui.ctrl.cb);
 			townbutton.get(i).setActionCommand("" + i);
 			this.add(townbutton.get(i));
 		}
@@ -377,7 +377,7 @@ public class JPanelGroundView extends JPanel {
 			townbutton.get(i).setOpaque(false);
 			townbutton.get(i).setContentAreaFilled(false);
 			townbutton.get(i).setBorderPainted(false);
-			townbutton.get(i).addActionListener(gui.ctrl);
+			townbutton.get(i).addActionListener(gui.ctrl.cb);
 			townbutton.get(i).setActionCommand("" + i);
 			this.add(townbutton.get(i));
 		}

@@ -38,7 +38,7 @@ public class JPanelOptionMenu extends JPanel {
 		save.setBounds(10, 10, 100, 50);
 		save.setVisible(true);
 		save.setActionCommand("save");
-		save.addActionListener(gui.ctrl);
+		save.addActionListener(gui.ctrl.cb);
 		
 		
 		this.add(save);

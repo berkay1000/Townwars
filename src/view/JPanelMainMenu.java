@@ -54,9 +54,9 @@ public class JPanelMainMenu extends JPanel {
 		buttonbeenden.setActionCommand("beenden");
 		buttonOptionen.setActionCommand("optionen");
 
-		gui.ctrl.setActionListener(buttonstart);
-		gui.ctrl.setActionListener(buttonbeenden);
-		gui.ctrl.setActionListener(buttonOptionen);
+		gui.ctrl.cb.setActionListener(buttonstart);
+		gui.ctrl.cb.setActionListener(buttonbeenden);
+		gui.ctrl.cb.setActionListener(buttonOptionen);
 		buttonstart.setVisible(true);
 		buttonbeenden.setVisible(true);
 		buttonOptionen.setVisible(true);
