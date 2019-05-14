@@ -8,16 +8,16 @@ import javax.swing.JButton;
 import Data.Data;
 import view.GUI;
 
-public class ControlButton implements ActionListener{
-	
+public class ControlButton implements ActionListener {
+
 	Control ctrl;
 	GUI gui;
 	Data data;
 
 	public ControlButton(Control control) {
-		ctrl= control;
-		data= ctrl.getData();
-		gui= ctrl.getGui();
+		ctrl = control;
+		data = ctrl.getData();
+		gui = ctrl.getGui();
 	}
 
 	@Override
@@ -77,7 +77,17 @@ public class ControlButton implements ActionListener{
 			}
 		}
 		else if(e.getActionCommand().equals("build")) {
-			//Aktivierte JinternalFrame
+			
+			if(gui.boolShowBuildingScreen==true) {
+				gui.boolShowBuildingScreen=false;
+				gui.buildingframe.show();
+			}
+			if(gui.boolShowBuildingScreen==false) {
+				gui.boolShowBuildingScreen=true;
+				gui.buildingframe.show();
+			}
+			System.out.println("zeige I-frame");
+			
 			
 		}
 		

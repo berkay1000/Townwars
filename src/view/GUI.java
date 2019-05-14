@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
 import Controls.Control;
@@ -19,6 +20,8 @@ public class GUI extends JFrame {
 	JPanelGroundView groundView;
 	JPanelOptionMenu optionmenupane;
 	JPanelStatisticsScreen endscreen;
+	public JInternalFrame buildingframe;
+	public boolean boolShowBuildingScreen=false;
 
 	public JPanelStatisticsScreen getEndscreen() {
 		return endscreen;
@@ -75,6 +78,8 @@ public class GUI extends JFrame {
 		groundView = new JPanelGroundView(this);
 		optionmenupane= new JPanelOptionMenu(this);
 		endscreen = new JPanelStatisticsScreen(this,data.getStatobject());
+		
+		
 		
 	}
 

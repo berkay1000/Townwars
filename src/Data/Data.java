@@ -169,10 +169,17 @@ public class Data {
 			// Count for every Faction the Townamount
 			for (int i = 0; i < FactionList.size(); i++) {
 				FactionList.get(i).resetTownCount();
+				
+			}
+			for (int i = 0; i < townlist.size(); i++) {
+				townlist.get(i).resetIncrementTargetedBy();
+				
 			}
 
 			for (int i = 0; i < townlist.size(); i++) {
+				
 				townlist.get(i).update();
+			
 
 				// AI tries to create Army. depending on governor and if enough army is rdy from the town
 				try {

@@ -3,15 +3,14 @@ package view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
 import townwars.Angriffsarmee;
@@ -32,15 +31,15 @@ public class JPanelGroundView extends JPanel {
 	GUI gui;
 	JButton exit;
 	JButton pause;
-	JButton attack, autoAttack, autoDefend, standStill;
+	JButton attack, autoAttack, autoDefend, standStill, build;
 	ArrayList<JButton> townbutton;
 	ArrayList<Angriffsarmee> guiangriffsarmee;
+	
 
-	public JPanelGroundView(GUI inputgui) {
+	JPanelGroundView(GUI inputgui) {
+
 		
-		
-		
-		
+
 		System.out.println("erstelle JPanel");
 		townbutton = new ArrayList<JButton>();
 		guiangriffsarmee = new ArrayList<Angriffsarmee>();
@@ -57,6 +56,11 @@ public class JPanelGroundView extends JPanel {
 		pause.setBounds(120, 10, 100, 50);
 		pause.setVisible(true);
 		pause.setActionCommand("pause");
+
+		build = new JButton("build");
+		build.setBounds(1050, 370, 100, 50);
+		build.setVisible(true);
+		build.setActionCommand("build");
 
 		attack = new JButton("attack");
 		attack.setBounds(1080, 200, 100, 50);
@@ -84,15 +88,16 @@ public class JPanelGroundView extends JPanel {
 		autoAttack.addActionListener(gui.ctrl.cb);
 		autoDefend.addActionListener(gui.ctrl.cb);
 		standStill.addActionListener(gui.ctrl.cb);
+		build.addActionListener(gui.ctrl.cb);
 
-		
-		//add buttons to gui
+		// add buttons to gui
 		this.add(exit);
 		this.add(pause);
 		this.add(attack);
 		this.add(autoAttack);
 		this.add(autoDefend);
 		this.add(standStill);
+		this.add(build);
 		this.addKeyListener(gui.ctrl.ck);
 
 		guiTown = gui.data.getTownlist();
@@ -122,7 +127,6 @@ public class JPanelGroundView extends JPanel {
 		autoAttack.setOpaque(false);
 		autoAttack.setContentAreaFilled(false);
 		autoAttack.setBorderPainted(false);
-		
 
 		standStill.setOpaque(false);
 		standStill.setContentAreaFilled(false);
@@ -139,7 +143,7 @@ public class JPanelGroundView extends JPanel {
 		BufferedImage autoAttackImage = null;
 		BufferedImage standStillImage = null;
 		BufferedImage activeStandStillImage = null;
-		
+
 		try {
 			townImage = ImageIO.read(new File("src/view/Sprites/town.png"));
 			shieldDefenseImage = ImageIO.read(new File("src/view/Sprites/shieldDefIcon.png"));
@@ -166,6 +170,7 @@ public class JPanelGroundView extends JPanel {
 			activeTown = null;
 		}
 		super.paint(g);
+		
 
 		int x = 0;
 		for (int i = 0; i < guiFaction.size(); i++) {
@@ -198,6 +203,7 @@ public class JPanelGroundView extends JPanel {
 		g.fillRect(0, 800, 1500, 10);
 		g.fillRect(1050, 0, 10, 1500);
 
+		
 		// draw unteren Balken(Anteil welche Fraktion wie viele Städte hat)
 		int anzTown = 0;
 		int offset = 0;
@@ -234,12 +240,13 @@ public class JPanelGroundView extends JPanel {
 			g.drawImage(townImage, tx, ty + 2, null);
 
 		}
+		
 
 		// für aktive stadt zeichne defbutton. soll später unterscheiden ob gerade aktiv
 		// oder nicht,
 		// ob grünes oder schwarzes Schild
 
-		if (activeTown != null && activeTown.getTownfaction().getFactionID()==0) {
+		if (activeTown != null && activeTown.getTownfaction().getFactionID() == 0) {
 			g.setColor(Color.black);
 			g.drawString("autoatt", 1060, 340);
 			g.drawString("autodef", 1120, 340);
@@ -255,94 +262,86 @@ public class JPanelGroundView extends JPanel {
 			} else {
 				g.drawImage(activeAutoAttackImage, 1060, 270, null);
 			}
-			
+
 			if (activeTown.isBoolStandStill() == false) {
 				g.drawImage(standStillImage, 1180, 270, null);
 			} else {
 				g.drawImage(activeStandStillImage, 1180, 270, null);
 			}
 		}
-	
-	// draw nearest line
-	g.setFont(new Font("TimesRoman",Font.PLAIN,10));for(
 
-	int i = 0;i<guiTown.size();i++)
-	{
+		// draw nearest line
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 10));
+		for (
+
+				int i = 0; i < guiTown.size(); i++) {
 
 			g.drawLine(guiTown.get(i).getStadtposition().x + 15, guiTown.get(i).getStadtposition().y + 15,
 					guiTown.get(i).getNahsteStadt().getStadtposition().x + 15,
 					guiTown.get(i).getNahsteStadt().getStadtposition().y + 15);
 
 		}
-	// Draw nearest enemy line
+		// Draw nearest enemy line
 
-	for(
-	int i = 0;i<guiTown.size();i++)
-	{
-		try {
-			g.setColor(Color.red);
-			g.drawLine(guiTown.get(i).getStadtposition().x + 15, guiTown.get(i).getStadtposition().y + 15,
-					guiTown.get(i).getNahstefeindlicheStadt().getStadtposition().x + 15,
-					guiTown.get(i).getNahstefeindlicheStadt().getStadtposition().y + 15);
-
-		}
-
-		catch (Exception e) {
-			guiTown.get(i).setnahstefeindlicheStadt();
-		}
-
-	}
-	// draw soldier count
-	g.setColor(Color.black);for(
-	int i = 0;i<guiTown.size();i++)
-	{
-		int guiAnzsoldaten = guiTown.get(i).getSoldaten().size();
-		int stadtposX = guiTown.get(i).getStadtposition().x;
-		int stadtposY = guiTown.get(i).getStadtposition().y;
-		g.drawString("" + guiAnzsoldaten, stadtposX, stadtposY);
-	}
-
-	// soldier count but enemy
-	g.setColor(Color.red);for(
-	int i = 0;i<guiTown.size();i++)
-	{
-		int guiAnzsoldatenfeindlich = guiTown.get(i).getFeindlicheSoldaten().size();
-		int stadtposX = guiTown.get(i).getStadtposition().x + 30;
-		int stadtposY = guiTown.get(i).getStadtposition().y;
-		g.drawString("" + guiAnzsoldatenfeindlich, stadtposX, stadtposY);
-
-	}
-	// draw Angriffsarmeen
-	for(
-	int i = 0;i<guiangriffsarmee.size();i++)
-	{
-//			System.out.println("position der angriffsarmee" + guiangriffsarmee.get(i).getPosition().x);
-		g.setColor(guiangriffsarmee.get(i).getCol());
-		int tx = guiangriffsarmee.get(i).getPosition().x;
-		int ty = guiangriffsarmee.get(i).getPosition().y;
-		g.fillRect(tx, ty, 5, 5);
-	}
-
-	// draw TargetLines
-	for(
-	int i = 0;i<guiTown.size();i++)
-	{
-		try {
-			g.setColor(Color.green);
-			if (guiTown.get(i).getTownfaction().getFactionID() == 0) {
+		for (int i = 0; i < guiTown.size(); i++) {
+			try {
+				g.setColor(Color.red);
 				g.drawLine(guiTown.get(i).getStadtposition().x + 15, guiTown.get(i).getStadtposition().y + 15,
-						guiTown.get(i).getAnvisierteStadt().getStadtposition().x + 15,
-						guiTown.get(i).getAnvisierteStadt().getStadtposition().y + 15);
+						guiTown.get(i).getNahstefeindlicheStadt().getStadtposition().x + 15,
+						guiTown.get(i).getNahstefeindlicheStadt().getStadtposition().y + 15);
+
+			}
+
+			catch (Exception e) {
+				guiTown.get(i).setnahstefeindlicheStadt();
 			}
 
 		}
-
-		catch (Exception e) {
-
+		// draw soldier count
+		g.setColor(Color.black);
+		for (int i = 0; i < guiTown.size(); i++) {
+			int guiAnzsoldaten = guiTown.get(i).getSoldaten().size();
+			int stadtposX = guiTown.get(i).getStadtposition().x;
+			int stadtposY = guiTown.get(i).getStadtposition().y;
+			g.drawString("" + guiAnzsoldaten, stadtposX, stadtposY);
 		}
 
-	}
+		// soldier count but enemy
+		g.setColor(Color.red);
+		for (int i = 0; i < guiTown.size(); i++) {
+			int guiAnzsoldatenfeindlich = guiTown.get(i).getFeindlicheSoldaten().size();
+			int stadtposX = guiTown.get(i).getStadtposition().x + 30;
+			int stadtposY = guiTown.get(i).getStadtposition().y;
+			g.drawString("" + guiAnzsoldatenfeindlich, stadtposX, stadtposY);
 
+		}
+		// draw Angriffsarmeen
+		for (int i = 0; i < guiangriffsarmee.size(); i++) {
+//			System.out.println("position der angriffsarmee" + guiangriffsarmee.get(i).getPosition().x);
+			g.setColor(guiangriffsarmee.get(i).getCol());
+			int tx = guiangriffsarmee.get(i).getPosition().x;
+			int ty = guiangriffsarmee.get(i).getPosition().y;
+			g.fillRect(tx, ty, 5, 5);
+		}
+		
+		// draw TargetLines
+		for (int i = 0; i < guiTown.size(); i++) {
+			try {
+				g.setColor(Color.green);
+				if (guiTown.get(i).getTownfaction().getFactionID() == 0) {
+					g.drawLine(guiTown.get(i).getStadtposition().x + 15, guiTown.get(i).getStadtposition().y + 15,
+							guiTown.get(i).getAnvisierteStadt().getStadtposition().x + 15,
+							guiTown.get(i).getAnvisierteStadt().getStadtposition().y + 15);
+				}
+
+			}
+
+			catch (Exception e) {
+
+			}
+
+		}
+		
 	}
 
 	public ArrayList<Town> getGuiTown() {

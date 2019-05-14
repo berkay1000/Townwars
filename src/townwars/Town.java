@@ -15,6 +15,7 @@ public class Town {
 	Town nahsteStadt;
 	Town nahstefeindlicheStadt;
 	Town anvisierteStadt;
+	Town bedrohteVerbuendeteStadt;
 
 	public Town getAnvisierteStadt() {
 		return anvisierteStadt;
@@ -27,7 +28,7 @@ public class Town {
 	Faction townfaction;
 	Faction factionlastattacked;
 	int defensiveAdvantage = 0;
-	int targetedby = 0;
+	public int targetedby = 0;
 	int fortificationBonus = 50;
 
 	boolean stadtImKampf;
@@ -40,6 +41,7 @@ public class Town {
 	boolean boolAutoDefend = false;
 	boolean boolAutoAttack = true;
 	boolean boolStandStill = false;
+	public boolean boolAutoECO = true;
 
 	public Town(ArrayList<Town> inputTown, Faction inputfaction, Data inputdata) {
 
@@ -272,23 +274,65 @@ public class Town {
 	public void update() {
 //System.out.println("stadtupdate!");
 
-		if (zyklus % 2 == 1) {
+		if (zyklus % 4 == 1) { // alle 2 zyklen soll gekämpft werden
 			this.stadtImKampf = false;
 			this.stadtKampf();
 		}
 
+		// falls verbündete Truppen 0 werden, aber feindliche anwesend sind, dann soll
+		// stadt erobert werden
 		if (soldaten.isEmpty() && this.feindlicheSoldaten.size() > 0) {
 			stadtWurdeErobert();
 		} else {
 
-			this.towneco.update();
+			// eco update,
+			this.towneco.aiUpdate();
+			this.towneco.Update();
 			this.setnahstefeindlicheStadt();
+			this.nahstefeindlicheStadt.incrementTargetedBy();
 			this.townfaction.countTowns();
+
+			if (targetedby > 2) {
+				sendDistressCall();
+			}
+
+			try {
+				if (this.bedrohteVerbuendeteStadt.targetedby < 2) {
+					bedrohteVerbuendeteStadt = null;
+				}
+			} catch (Exception E) {
+
+			}
+
+			if (soldaten.size() > 200 && this.feindlicheSoldaten.isEmpty() & this.targetedby == 0) {
+
+				sendVerteidigungsTruppen();
+
+			}
+
 		}
 
 		zyklus++;
 		if (zyklus >= 60)
 			zyklus = 0;
+
+	}
+
+	private void sendVerteidigungsTruppen() {
+		if (bedrohteVerbuendeteStadt != null) {
+			Angriffsarmee aa = new Angriffsarmee(stadtposition, townfaction, bedrohteVerbuendeteStadt);
+
+			System.out.println("governor baseattacksize: " + governor.getBaseattacksize());
+			for (int i = 0; i < governor.getBaseattacksize(); i++) {
+				if (soldaten.isEmpty())
+					break;
+				soldaten.remove(0);
+				aa.addToArmy();
+			}
+
+			data.getAngriffsarmeelist().add(aa);
+		}
+
 	}
 
 	private void stadtKampf() {
@@ -495,9 +539,56 @@ public class Town {
 			if (mindistance > 45) {
 				anvisierteStadt = null;
 			}
-			
 
 		}
 		return anvisierteStadt;
+	}
+
+	public Town getBedrohteVerbuendeteStadt() {
+		return bedrohteVerbuendeteStadt;
+	}
+
+	public void setBedrohteVerbuendeteStadt(Town inputTown) {
+		// eine Hilfeanfrage kam, soll Hilfe geschickt werden?
+		// ist Stadt nah genug dran und verbündet?
+		int eigenePositionX = this.stadtposition.x;
+		int eigenePositionY = this.stadtposition.y;
+
+		int anderePositionX = inputTown.stadtposition.x;
+		int anderePositionY = inputTown.stadtposition.y;
+		int deltaX = eigenePositionX - anderePositionX;
+		int deltaY = eigenePositionY - anderePositionY;
+		int distancesum = deltaX * deltaX + deltaY * deltaY;
+		int distance = (int) Math.sqrt(distancesum);
+
+		if (distance < 300 && this.townfaction.FactionID == inputTown.townfaction.FactionID && distance > 0) {
+			if (this.isPlayer == false) {
+				this.bedrohteVerbuendeteStadt = inputTown;
+				
+			}
+			if (this.isPlayer == true && this.boolAutoDefend == true) {
+				this.bedrohteVerbuendeteStadt = inputTown;
+				
+			}
+		}
+
+	}
+
+	public void incrementTargetedBy() {
+		this.targetedby++;
+	}
+
+	public void resetIncrementTargetedBy() {
+		targetedby = 0;
+	}
+
+	private void sendDistressCall() {
+		for (int i = 0; i < otherTowns.size(); i++) {
+
+			if (otherTowns.get(i).townfaction.FactionID == townfaction.FactionID && otherTowns.get(i) != this)
+				this.otherTowns.get(i).setBedrohteVerbuendeteStadt(this);
+
+		}
+
 	}
 }
