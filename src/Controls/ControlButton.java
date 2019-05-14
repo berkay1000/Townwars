@@ -76,6 +76,10 @@ public class ControlButton implements ActionListener{
 
 			}
 		}
+		else if(e.getActionCommand().equals("build")) {
+			//Aktivierte JinternalFrame
+			
+		}
 		
 		
 		else {

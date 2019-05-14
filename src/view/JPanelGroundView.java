@@ -85,6 +85,8 @@ public class JPanelGroundView extends JPanel {
 		autoDefend.addActionListener(gui.ctrl.cb);
 		standStill.addActionListener(gui.ctrl.cb);
 
+		
+		//add buttons to gui
 		this.add(exit);
 		this.add(pause);
 		this.add(attack);

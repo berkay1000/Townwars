@@ -30,8 +30,7 @@ public class Main {
 		gui.setSize(Integer.parseInt(data.rpf.prop.getProperty("framewidth")),
 				Integer.parseInt(data.rpf.prop.getProperty("frameheight")));
 		gui.setVisible(true);
-		
-		
+
 		gui.addMouseListener(ctrl.cm);
 		gui.addMouseMotionListener(ctrl.cm);
 		gui.addKeyListener(ctrl.ck);
@@ -43,6 +42,7 @@ public class Main {
 		while (true) { // true soll später zu pause werden asd
 
 			try {
+				// ungefähr 60 Frames/s
 				Thread.sleep(17); // 17
 			} catch (InterruptedException e) {
 
@@ -52,6 +52,7 @@ public class Main {
 //Die datenquelle wird immer wieder updated
 			data.update();
 
+			// genau wie die Sicht
 			gui.getCurrentpane().repaint();
 		}
 
