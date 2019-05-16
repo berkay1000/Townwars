@@ -78,14 +78,7 @@ public class ControlButton implements ActionListener {
 		}
 		else if(e.getActionCommand().equals("build")) {
 			
-			if(gui.boolShowBuildingScreen==true) {
-				gui.boolShowBuildingScreen=false;
-				gui.buildingframe.show();
-			}
-			if(gui.boolShowBuildingScreen==false) {
-				gui.boolShowBuildingScreen=true;
-				gui.buildingframe.show();
-			}
+			
 			System.out.println("zeige I-frame");
 			
 			

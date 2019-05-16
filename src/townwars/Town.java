@@ -274,7 +274,7 @@ public class Town {
 	public void update() {
 //System.out.println("stadtupdate!");
 
-		if (zyklus % 4 == 1) { // alle 2 zyklen soll gekämpft werden
+		if (zyklus % 4 == 1) { // alle 4 zyklen soll gekämpft werden
 			this.stadtImKampf = false;
 			this.stadtKampf();
 		}

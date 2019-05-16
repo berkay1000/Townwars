@@ -20,7 +20,7 @@ public class GUI extends JFrame {
 	JPanelGroundView groundView;
 	JPanelOptionMenu optionmenupane;
 	JPanelStatisticsScreen endscreen;
-	public JInternalFrame buildingframe;
+	
 	public boolean boolShowBuildingScreen=false;
 
 	public JPanelStatisticsScreen getEndscreen() {
