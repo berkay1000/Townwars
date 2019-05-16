@@ -110,13 +110,17 @@ public class Data {
 			FactionList.add(new Faction(hexcolor, "undefined"));
 		}
 
+		int factiondecider = 0;
 		// create Town and assign to faction randomly(for now)
 		for (int i = 0; i < anztown; i++) {
 
 			int randnumb = (int) (Math.random() * (facam));
+			if (factiondecider >= FactionList.size()) {
+			factiondecider=0;
+			}
 
-			townlist.add(new Town(townlist, FactionList.get(randnumb), this));
-
+				townlist.add(new Town(townlist, FactionList.get(factiondecider), this));
+			factiondecider++;
 		}
 
 		// if towns are distributed evenly(not clumped in one place then bool stays
@@ -143,8 +147,7 @@ public class Data {
 
 	}
 
-	
-	//function which gets called to return a random r-g-b Color
+	// function which gets called to return a random r-g-b Color
 	private Color randomnumberColor() {
 		int r = (int) (Math.random() * 256);
 		int g = (int) (Math.random() * 256);
@@ -155,11 +158,10 @@ public class Data {
 		return randomColor;
 	}
 
-	
-	//to make a game continuos. this get called from the main all the time
+	// to make a game continuos. this get called from the main all the time
 	public void update() {
 
-		//if pausebutton has been hit
+		// if pausebutton has been hit
 		if (hasStarted == false) {
 
 		} else {
@@ -169,19 +171,19 @@ public class Data {
 			// Count for every Faction the Townamount
 			for (int i = 0; i < FactionList.size(); i++) {
 				FactionList.get(i).resetTownCount();
-				
+
 			}
 			for (int i = 0; i < townlist.size(); i++) {
 				townlist.get(i).resetIncrementTargetedBy();
-				
+
 			}
 
 			for (int i = 0; i < townlist.size(); i++) {
-				
-				townlist.get(i).update();
-			
 
-				// AI tries to create Army. depending on governor and if enough army is rdy from the town
+				townlist.get(i).update();
+
+				// AI tries to create Army. depending on governor and if enough army is rdy from
+				// the town
 				try {
 					angriffsarmeelist.add(townlist.get(i).createAngriffsArmeeComputer());
 
@@ -190,13 +192,13 @@ public class Data {
 				}
 			}
 
-			//update armies, to move and drop units
+			// update armies, to move and drop units
 			for (int i = 0; i < angriffsarmeelist.size(); i++) {
 				angriffsarmeelist.get(i).update();
 			}
 			for (int i = 0; i < angriffsarmeelist.size();) {
 
-				//remove armies without troops
+				// remove armies without troops
 				if (angriffsarmeelist.get(i).getSoldaten().size() == 0) {
 					angriffsarmeelist.remove(i);
 				} else {
@@ -210,12 +212,13 @@ public class Data {
 
 			facAnzTown = FactionList.get(i).getAmountTown();
 
-			//save up Faction story. when they have many towns and when they lived miserably(for endscreen)
+			// save up Faction story. when they have many towns and when they lived
+			// miserably(for endscreen)
 			if (zyklus > 10) {
 				FactionList.get(i).factionAmmendToTownAmountInTimeProgess(facAnzTown);
 			}
 
-			//if some faction has all towns, game will end
+			// if some faction has all towns, game will end
 			int anzTown = Integer.parseInt(rpf.prop.getProperty("townamounts"));
 			if (facAnzTown == anzTown & gameEnded == false) {
 
@@ -230,7 +233,7 @@ public class Data {
 		}
 	}
 
-	//reset army, town, factions and create a new world
+	// reset army, town, factions and create a new world
 	public void clearMap() {
 		while (angriffsarmeelist.isEmpty() == false) {
 			angriffsarmeelist.remove(0);

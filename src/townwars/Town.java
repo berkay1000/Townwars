@@ -470,6 +470,7 @@ public class Town {
 		boolAutoAttack = true;
 		boolAutoDefend = false;
 		boolStandStill = false;
+		this.towneco.effizienz=0;
 
 	}
 

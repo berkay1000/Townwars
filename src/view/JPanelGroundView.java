@@ -58,7 +58,7 @@ public class JPanelGroundView extends JPanel {
 		pause.setActionCommand("pause");
 
 		build = new JButton("build");
-		build.setBounds(1050, 370, 100, 50);
+		build.setBounds(1060, 370, 90, 50);
 		build.setVisible(true);
 		build.setActionCommand("build");
 
@@ -316,6 +316,7 @@ public class JPanelGroundView extends JPanel {
 
 		}
 		// draw Angriffsarmeen
+		
 		for (int i = 0; i < guiangriffsarmee.size(); i++) {
 //			System.out.println("position der angriffsarmee" + guiangriffsarmee.get(i).getPosition().x);
 			g.setColor(guiangriffsarmee.get(i).getCol());

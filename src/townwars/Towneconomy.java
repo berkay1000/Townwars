@@ -4,10 +4,11 @@ public class Towneconomy {
 
 	Town belongsToTown;
 	int ressource;
-	int ressourceIncrease;
+	int ressourceIncome=10;
 	int zaehler;
 	int ressourceDerivedToBuildWall;
 	Governor townGov;
+	public int effizienz=100;
 
 	Towneconomy(Town inputtown) {
 		belongsToTown = inputtown;
@@ -20,8 +21,9 @@ public class Towneconomy {
 	public void Update() {
 		if (belongsToTown.isPlayer == true && belongsToTown.boolAutoECO == false) {
 
-			ressource = ressource + 5;
+			ressource = (int)(((ressource + ressourceIncome)*effizienz)/100);
 		}
+		if (effizienz<=100) {effizienz++;}
 
 	}
 
@@ -31,7 +33,7 @@ public class Towneconomy {
 			while (ressource > 10) {
 				createSoldiers();
 			}
-		ressource = ressource + 5;
+		ressource = ((ressource + ressourceIncome)*effizienz/100);
 
 		int randomnumb = (int) (Math.random() * (101));
 
@@ -45,7 +47,7 @@ public class Towneconomy {
 			ressourceDerivedToBuildWall = 0;
 			belongsToTown.fortificationBonus += 15;
 		}
-
+		if (effizienz<=100) {effizienz++;}
 	}
 
 	public void createSoldiers() {

@@ -41,9 +41,9 @@ public class JPanelStatisticsScreen extends JPanel {
 		}
 		System.out.println("danach:" + guiFactionList.get(3).getTownAmountInTimeProgress().size());
 		
-		g.drawLine(100, 800, 1000, 800);
+		g.drawLine(100, 800, 1000, 800);	
 
-		for (int i = 0; i < guiFactionList.size() - 1; i++) {
+		for (int i = 0; i < guiFactionList.size(); i++) {
 			g.setColor(guiFactionList.get(i).getCol());
 
 			for (int timep = 0; timep < guiFactionList.get(i).getTownAmountInTimeProgress().size() - 1; timep++) {
