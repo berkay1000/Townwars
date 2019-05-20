@@ -161,7 +161,7 @@ public class Data {
 	// to make a game continuos. this get called from the main all the time
 	public void update() {
 
-		// if pausebutton has been hit
+		// if pausebutton has been hit or not
 		if (hasStarted == false) {
 
 		} else {

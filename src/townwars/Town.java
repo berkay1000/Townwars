@@ -287,7 +287,7 @@ public class Town {
 
 			// eco update,
 			this.towneco.aiUpdate();
-			this.towneco.Update();
+			this.towneco.playerUpdate();
 			this.setnahstefeindlicheStadt();
 			this.nahstefeindlicheStadt.incrementTargetedBy();
 			this.townfaction.countTowns();

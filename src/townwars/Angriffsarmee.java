@@ -95,7 +95,6 @@ public class Angriffsarmee {
 //                                         
 //			}
 
-			} else {
 			}
 
 		} catch (Exception e) {

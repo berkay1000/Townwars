@@ -18,7 +18,7 @@ public class Towneconomy {
 
 	}
 
-	public void Update() {
+	public void playerUpdate() {
 		if (belongsToTown.isPlayer == true && belongsToTown.boolAutoECO == false) {
 
 			ressource = (int)(((ressource + ressourceIncome)*effizienz)/100);
