@@ -301,7 +301,11 @@ public class Town {
 					bedrohteVerbuendeteStadt = null;
 				}
 			} catch (Exception E) {
-
+			}
+			try {
+				this.createAngriffsArmeeComputer();
+			} catch (Exception e) {
+				
 			}
 
 			if (soldaten.size() > 200 && this.feindlicheSoldaten.isEmpty() & this.targetedby == 0) {
@@ -376,7 +380,7 @@ public class Town {
 
 	}
 
-	public Angriffsarmee createAngriffsArmeeComputer() throws Exception {
+	public boolean createAngriffsArmeeComputer() throws Exception {
 
 		// nur bots und autoattackierende Player-städte gehen diesen weg
 		if ((soldaten.size() > governor.getBaseattacksize() && this.isPlayer == false)
@@ -392,13 +396,19 @@ public class Town {
 			}
 			int createArmyOffset = governor.defensivness * 10;
 			for (int i = createArmyOffset; i < governor.getBaseattacksize(); i++) {
+				
+				if(soldaten.isEmpty()==true) {
+					break;
+				}
 				soldaten.remove(0);
 				aa.addToArmy();
+			
 
 			}
 			governor.setBaseattacksize(10 + governor.getBaseattacksize());
 
-			return aa;
+			data.getAngriffsarmeelist().add(aa);
+			return true;
 		} else {
 			throw new NullPointerException("demo");
 		}

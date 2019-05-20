@@ -158,7 +158,7 @@ public class Data {
 		return randomColor;
 	}
 
-	// to make a game continuos. this get called from the main all the time
+	// to make a game continuos. this gets called from the main all the time
 	public void update() {
 
 		// if pausebutton has been hit or not
@@ -184,12 +184,7 @@ public class Data {
 
 				// AI tries to create Army. depending on governor and if enough army is rdy from
 				// the town
-				try {
-					angriffsarmeelist.add(townlist.get(i).createAngriffsArmeeComputer());
-
-				} catch (Exception e) {
-
-				}
+				
 			}
 
 			// update armies, to move and drop units
