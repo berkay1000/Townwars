@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
+import Controls.Control;
 import townwars.Angriffsarmee;
 import townwars.Faction;
 import townwars.Soldat;
@@ -29,31 +30,28 @@ public class JPanelGroundView extends JPanel {
 	ArrayList<Soldat> guiSoldatfeindlich;
 	ArrayList<Faction> guiFaction;
 	GUI gui;
+	Control ctrl;
 	JButton exit;
 	JButton pause;
 	JButton attack, autoAttack, autoDefend, standStill, build;
 	ArrayList<JButton> townbutton;
 	ArrayList<Angriffsarmee> guiangriffsarmee;
 	JSlider attackAmountSlider;
-	
 
 	JPanelGroundView(GUI inputgui) {
 
-		
-
+		ctrl = inputgui.ctrl;
 		System.out.println("erstelle JPanel");
 		townbutton = new ArrayList<JButton>();
 		guiangriffsarmee = new ArrayList<Angriffsarmee>();
 		guiSoldatfeindlich = new ArrayList<Soldat>();
-		
-		attackAmountSlider= new JSlider(JSlider.HORIZONTAL,10,120,25);
+
+		attackAmountSlider = new JSlider(JSlider.HORIZONTAL, 10, 120, 25);
 		attackAmountSlider.setBounds(1080, 500, 100, 30);
 		attackAmountSlider.setMajorTickSpacing(90);
-		
+
 		attackAmountSlider.setPaintTicks(true);
 		attackAmountSlider.setPaintLabels(true);
-		
-		
 
 		gui = inputgui;
 		this.setLayout(null);
@@ -92,14 +90,14 @@ public class JPanelGroundView extends JPanel {
 		standStill.setVisible(true);
 		standStill.setActionCommand("standStill");
 
-		attack.addActionListener(gui.ctrl.cb);
-		exit.addActionListener(gui.ctrl.cb);
-		pause.addActionListener(gui.ctrl.cb);
-		autoAttack.addActionListener(gui.ctrl.cb);
-		autoDefend.addActionListener(gui.ctrl.cb);
-		standStill.addActionListener(gui.ctrl.cb);
-		build.addActionListener(gui.ctrl.cb);
-		attackAmountSlider.addChangeListener(gui.ctrl.cc);
+		attack.addActionListener(ctrl.cb);
+		exit.addActionListener(ctrl.cb);
+		pause.addActionListener(ctrl.cb);
+		autoAttack.addActionListener(ctrl.cb);
+		autoDefend.addActionListener(ctrl.cb);
+		standStill.addActionListener(ctrl.cb);
+		build.addActionListener(ctrl.cb);
+		attackAmountSlider.addChangeListener(ctrl.cc);
 
 		// add buttons to gui
 		this.add(exit);
@@ -109,9 +107,8 @@ public class JPanelGroundView extends JPanel {
 		this.add(autoDefend);
 		this.add(standStill);
 		this.add(build);
-		this.addKeyListener(gui.ctrl.ck);
+		this.addKeyListener(ctrl.ck);
 		this.add(attackAmountSlider);
-		
 
 		guiTown = gui.data.getTownlist();
 		guiFaction = gui.data.getFactionList();
@@ -127,7 +124,7 @@ public class JPanelGroundView extends JPanel {
 			townbutton.get(i).setOpaque(false);
 			townbutton.get(i).setContentAreaFilled(false);
 			townbutton.get(i).setBorderPainted(false);
-			townbutton.get(i).addActionListener(gui.ctrl.cb);
+			townbutton.get(i).addActionListener(ctrl.cb);
 			townbutton.get(i).setActionCommand("" + i);
 			this.add(townbutton.get(i));
 		}
@@ -183,7 +180,6 @@ public class JPanelGroundView extends JPanel {
 			activeTown = null;
 		}
 		super.paint(g);
-		
 
 		int x = 0;
 		for (int i = 0; i < guiFaction.size(); i++) {
@@ -216,7 +212,6 @@ public class JPanelGroundView extends JPanel {
 		g.fillRect(0, 800, 1500, 10);
 		g.fillRect(1050, 0, 10, 1500);
 
-		
 		// draw unteren Balken(Anteil welche Fraktion wie viele Städte hat)
 		int anzTown = 0;
 		int offset = 0;
@@ -253,9 +248,6 @@ public class JPanelGroundView extends JPanel {
 			g.drawImage(townImage, tx, ty + 2, null);
 
 		}
-		
-
-		
 
 		if (activeTown != null && activeTown.getTownfaction().getFactionID() == 0) {
 			g.setColor(Color.black);
@@ -327,7 +319,7 @@ public class JPanelGroundView extends JPanel {
 
 		}
 		// draw Angriffsarmeen
-		
+
 		for (int i = 0; i < guiangriffsarmee.size(); i++) {
 //			System.out.println("position der angriffsarmee" + guiangriffsarmee.get(i).getPosition().x);
 			g.setColor(guiangriffsarmee.get(i).getCol());
@@ -335,7 +327,7 @@ public class JPanelGroundView extends JPanel {
 			int ty = guiangriffsarmee.get(i).getPosition().y;
 			g.fillRect(tx, ty, 5, 5);
 		}
-		
+
 		// draw TargetLines
 		for (int i = 0; i < guiTown.size(); i++) {
 			try {
@@ -353,7 +345,7 @@ public class JPanelGroundView extends JPanel {
 			}
 
 		}
-		
+
 	}
 
 	public ArrayList<Town> getGuiTown() {
@@ -390,7 +382,7 @@ public class JPanelGroundView extends JPanel {
 			townbutton.get(i).setOpaque(false);
 			townbutton.get(i).setContentAreaFilled(false);
 			townbutton.get(i).setBorderPainted(false);
-			townbutton.get(i).addActionListener(gui.ctrl.cb);
+			townbutton.get(i).addActionListener(ctrl.cb);
 			townbutton.get(i).setActionCommand("" + i);
 			this.add(townbutton.get(i));
 		}
@@ -399,7 +391,7 @@ public class JPanelGroundView extends JPanel {
 
 	public int getSliderValue() {
 		return this.attackAmountSlider.getValue();
-		
+
 	}
 
 }
