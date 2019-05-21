@@ -2,15 +2,10 @@ package Controls;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.event.*;
-
-import javax.swing.JButton;
-
-import com.sun.prism.paint.Color;
+import java.awt.event.KeyEvent;
 
 import Data.Data;
 import townwars.Angriffsarmee;
-import townwars.Faction;
 import townwars.Town;
 import view.GUI;
 
@@ -21,6 +16,7 @@ public class Control  {
 public ControlButton cb;
 public ControlKey ck;
 public ControlMouse cm;
+public ControlChangeListener cc;
 	public Control() {
 		
 	}
@@ -29,7 +25,7 @@ public ControlMouse cm;
 		 cb= new ControlButton(this);
 		 ck= new ControlKey(this);
 		 cm= new ControlMouse(this);
-		
+		cc= new ControlChangeListener(this);
 	}
 
 	

@@ -83,6 +83,9 @@ public class ControlButton implements ActionListener {
 			
 			
 		}
+		else if(e.getActionCommand().equals("beenden")) {
+			gui.dispose();
+		}
 		
 		
 		else {

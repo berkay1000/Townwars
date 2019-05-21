@@ -17,10 +17,6 @@ public class Town {
 	Town anvisierteStadt;
 	Town bedrohteVerbuendeteStadt;
 
-	public Town getAnvisierteStadt() {
-		return anvisierteStadt;
-	}
-
 	Buildings[] buildings;
 	Governor governor;
 	Point stadtposition;
@@ -42,6 +38,10 @@ public class Town {
 	boolean boolAutoAttack = true;
 	boolean boolStandStill = false;
 	public boolean boolAutoECO = true;
+
+	public Town getAnvisierteStadt() {
+		return anvisierteStadt;
+	}
 
 	public Town(ArrayList<Town> inputTown, Faction inputfaction, Data inputdata) {
 
@@ -421,13 +421,11 @@ public class Town {
 
 		if (this.townfaction.getFactionID() == 0 && anvisierteStadt != null) {
 
-			System.out.println(stadtposition);
-			System.out.println(townfaction);
-			System.out.println(anvisierteStadt);
+			
 			Angriffsarmee aa = new Angriffsarmee(stadtposition, townfaction, anvisierteStadt);
 
-			System.out.println("governor baseattacksize: " + governor.getBaseattacksize());
-			for (int i = 0; i < governor.getBaseattacksize(); i++) {
+		
+			for (int i = 0; i < data.getAttackAmountFromSlider(); i++) {
 
 				if (soldaten.isEmpty())
 					break;

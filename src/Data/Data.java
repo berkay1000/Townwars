@@ -25,6 +25,11 @@ public class Data {
 	private boolean gameEnded = false;
 	Point Mouseposition;
 	Point MousereleasedPosition;
+	int attackAmountFromSlider;
+
+	public int getAttackAmountFromSlider() {
+		return attackAmountFromSlider;
+	}
 
 	public Point getMouseposition() {
 		return Mouseposition;
@@ -111,7 +116,7 @@ public class Data {
 		}
 
 		int factiondecider = 0;
-		// create Town and assign to faction randomly(for now)
+		// create Town and assign to faction roundrobinlike
 		for (int i = 0; i < anztown; i++) {
 
 			int randnumb = (int) (Math.random() * (facam));
@@ -265,6 +270,11 @@ public class Data {
 
 		}
 
+	}
+
+	public void setAttackAmountFromSlider(int sliderValue) {
+		attackAmountFromSlider= sliderValue;
+		
 	}
 
 }

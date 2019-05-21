@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 import townwars.Angriffsarmee;
 import townwars.Faction;
@@ -34,6 +34,7 @@ public class JPanelGroundView extends JPanel {
 	JButton attack, autoAttack, autoDefend, standStill, build;
 	ArrayList<JButton> townbutton;
 	ArrayList<Angriffsarmee> guiangriffsarmee;
+	JSlider attackAmountSlider;
 	
 
 	JPanelGroundView(GUI inputgui) {
@@ -44,6 +45,15 @@ public class JPanelGroundView extends JPanel {
 		townbutton = new ArrayList<JButton>();
 		guiangriffsarmee = new ArrayList<Angriffsarmee>();
 		guiSoldatfeindlich = new ArrayList<Soldat>();
+		
+		attackAmountSlider= new JSlider(JSlider.HORIZONTAL,10,120,25);
+		attackAmountSlider.setBounds(1080, 500, 100, 30);
+		attackAmountSlider.setMajorTickSpacing(90);
+		
+		attackAmountSlider.setPaintTicks(true);
+		attackAmountSlider.setPaintLabels(true);
+		
+		
 
 		gui = inputgui;
 		this.setLayout(null);
@@ -89,6 +99,7 @@ public class JPanelGroundView extends JPanel {
 		autoDefend.addActionListener(gui.ctrl.cb);
 		standStill.addActionListener(gui.ctrl.cb);
 		build.addActionListener(gui.ctrl.cb);
+		attackAmountSlider.addChangeListener(gui.ctrl.cc);
 
 		// add buttons to gui
 		this.add(exit);
@@ -99,6 +110,8 @@ public class JPanelGroundView extends JPanel {
 		this.add(standStill);
 		this.add(build);
 		this.addKeyListener(gui.ctrl.ck);
+		this.add(attackAmountSlider);
+		
 
 		guiTown = gui.data.getTownlist();
 		guiFaction = gui.data.getFactionList();
@@ -242,9 +255,7 @@ public class JPanelGroundView extends JPanel {
 		}
 		
 
-		// für aktive stadt zeichne defbutton. soll später unterscheiden ob gerade aktiv
-		// oder nicht,
-		// ob grünes oder schwarzes Schild
+		
 
 		if (activeTown != null && activeTown.getTownfaction().getFactionID() == 0) {
 			g.setColor(Color.black);
@@ -369,7 +380,7 @@ public class JPanelGroundView extends JPanel {
 	public void resetButton() {
 
 		for (int i = 0; i < guiTown.size(); i++) {
-			// System.out.println("stadtknopf wird erstellt");
+			// System.out.println("stadtknopf wird erstellt(neuerstellt)");
 
 			int posx = guiTown.get(i).getStadtposition().x;
 			int posy = guiTown.get(i).getStadtposition().y;
@@ -384,6 +395,11 @@ public class JPanelGroundView extends JPanel {
 			this.add(townbutton.get(i));
 		}
 
+	}
+
+	public int getSliderValue() {
+		return this.attackAmountSlider.getValue();
+		
 	}
 
 }
