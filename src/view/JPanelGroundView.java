@@ -37,6 +37,7 @@ public class JPanelGroundView extends JPanel {
 	ArrayList<JButton> townbutton;
 	ArrayList<Angriffsarmee> guiangriffsarmee;
 	JSlider attackAmountSlider;
+	int zyklus=0;
 
 	JPanelGroundView(GUI inputgui) {
 
@@ -47,7 +48,7 @@ public class JPanelGroundView extends JPanel {
 		guiSoldatfeindlich = new ArrayList<Soldat>();
 
 		attackAmountSlider = new JSlider(JSlider.HORIZONTAL, 10, 120, 25);
-		attackAmountSlider.setBounds(1080, 500, 100, 30);
+		attackAmountSlider.setBounds(1080, 500, 100, 50);
 		attackAmountSlider.setMajorTickSpacing(90);
 
 		attackAmountSlider.setPaintTicks(true);
@@ -179,13 +180,23 @@ public class JPanelGroundView extends JPanel {
 		} else {
 			activeTown = null;
 		}
+		
+		if(zyklus==15) {
 		super.paint(g);
+		zyklus=0;
+		}
+		else {
+			zyklus++;}
+		
+		
 
 		int x = 0;
 		for (int i = 0; i < guiFaction.size(); i++) {
-
+			
+ 
 			if (guiFaction.get(i).getAmountTown() != 0) {
 				g.drawString("" + this.guiFaction.get(i).getAmountTown(), 1200, 400 + i * 15 - x * 15);
+			
 			} else
 				x++;
 		}
@@ -222,9 +233,12 @@ public class JPanelGroundView extends JPanel {
 
 			g.setColor(faccol);
 			g.fillRect(10 + offset, 820, anzTown * 4, 30);
+			System.out.print(anzTown+" ");
+			
 			offset += anzTown * 4;
 		}
 
+		System.out.println();
 		// Draw städte
 		for (int i = 0; i < guiTown.size(); i++) {
 

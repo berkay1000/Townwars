@@ -98,7 +98,7 @@ public class Angriffsarmee {
 			}
 
 		} catch (Exception e) {
-			System.out.println("kein ziel");
+			
 		}
 	}
 

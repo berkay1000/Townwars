@@ -120,7 +120,7 @@ public class Data {
 		for (int i = 0; i < anztown; i++) {
 
 			int randnumb = (int) (Math.random() * (facam));
-			if (factiondecider >= FactionList.size()) {
+			if (factiondecider >=facam) {
 			factiondecider=0;
 			}
 
