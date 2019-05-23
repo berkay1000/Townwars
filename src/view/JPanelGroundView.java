@@ -181,12 +181,9 @@ public class JPanelGroundView extends JPanel {
 			activeTown = null;
 		}
 		
-		if(zyklus==15) {
+		
 		super.paint(g);
-		zyklus=0;
-		}
-		else {
-			zyklus++;}
+		
 		
 		
 

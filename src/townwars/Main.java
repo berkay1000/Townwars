@@ -10,7 +10,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		//im branch
+		// im branch
 		// erstelle Objekte die für MVC-Pattern benötigt werden
 		Control ctrl = new Control();
 		Data data = new Data();
@@ -18,7 +18,7 @@ public class Main {
 
 		// verbinde mvc
 		ctrl.setGUIDATA(gui, data);
-		data.setCTRLGUI(ctrl, gui);
+//		data.setCTRLGUI(ctrl, gui);
 		gui.setDATACTRL(data, ctrl);
 
 		// erstelle unterliegenden Jpanes wie Menü und groundview/schlachtfeld
@@ -40,25 +40,24 @@ public class Main {
 
 		int zaehler = 0;
 
-		//jetzt in github und gitlab
+		// jetzt in github und gitlab
 		while (true) { // true soll später zu pause werden asd
 
-//			try {
-//				// ungefähr 60 Frames/s
-//				Thread.sleep(17); // 17
-//			} catch (InterruptedException e) {
-//
-//				e.printStackTrace();
-//			}
+		try {
+			// ungefähr 60 Frames/s
+			Thread.sleep(17); // 17
+		} catch (InterruptedException e) {
+
+			e.printStackTrace();
+	}
 
 //Die datenquelle wird immer wieder updated
 			data.update();
 
 			// genau wie die Sicht
-			
-			
+
 			gui.getCurrentpane().repaint();
-			
+
 		}
 
 	}
