@@ -44,7 +44,6 @@ public class Town {
 	}
 
 	public Town(ArrayList<Town> inputTown, Faction inputfaction, Data inputdata) {
-
 		data = inputdata;
 		governor = new Governor();
 		towneco = new Towneconomy(this);
@@ -305,7 +304,7 @@ public class Town {
 			try {
 				this.createAngriffsArmeeComputer();
 			} catch (Exception e) {
-				
+
 			}
 
 			if (soldaten.size() > 200 && this.feindlicheSoldaten.isEmpty() & this.targetedby == 0) {
@@ -396,13 +395,12 @@ public class Town {
 			}
 			int createArmyOffset = governor.defensivness * 10;
 			for (int i = createArmyOffset; i < governor.getBaseattacksize(); i++) {
-				
-				if(soldaten.isEmpty()==true) {
+
+				if (soldaten.isEmpty() == true) {
 					break;
 				}
 				soldaten.remove(0);
 				aa.addToArmy();
-			
 
 			}
 			governor.setBaseattacksize(10 + governor.getBaseattacksize());
@@ -421,10 +419,8 @@ public class Town {
 
 		if (this.townfaction.getFactionID() == 0 && anvisierteStadt != null) {
 
-			
 			Angriffsarmee aa = new Angriffsarmee(stadtposition, townfaction, anvisierteStadt);
 
-		
 			for (int i = 0; i < data.getAttackAmountFromSlider(); i++) {
 
 				if (soldaten.isEmpty())
@@ -478,7 +474,7 @@ public class Town {
 		boolAutoAttack = true;
 		boolAutoDefend = false;
 		boolStandStill = false;
-		this.towneco.effizienz=0;
+		this.towneco.effizienz = 0;
 
 	}
 
@@ -573,11 +569,11 @@ public class Town {
 		if (distance < 300 && this.townfaction.FactionID == inputTown.townfaction.FactionID && distance > 0) {
 			if (this.isPlayer == false) {
 				this.bedrohteVerbuendeteStadt = inputTown;
-				
+
 			}
 			if (this.isPlayer == true && this.boolAutoDefend == true) {
 				this.bedrohteVerbuendeteStadt = inputTown;
-				
+
 			}
 		}
 

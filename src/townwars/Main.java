@@ -43,13 +43,13 @@ public class Main {
 		// jetzt in github und gitlab
 		while (true) { // true soll später zu pause werden asd
 
-		try {
-			// ungefähr 60 Frames/s
-			Thread.sleep(17); // 17
-		} catch (InterruptedException e) {
+			try {
+				// ungefähr 60 Frames/s
+				Thread.sleep(17); // 17
+			} catch (InterruptedException e) {
 
-			e.printStackTrace();
-	}
+				e.printStackTrace();
+			}
 
 //Die datenquelle wird immer wieder updated
 			data.update();
